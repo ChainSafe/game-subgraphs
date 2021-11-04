@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: schema.graphql
+  file: rinkeby-erc721.schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: erc721
@@ -15,7 +15,7 @@ dataSources:
         - ERC721Contract
       abis:
         - name: IERC721
-          file: ./node_modules/@openzeppelin/contracts/build/contracts/IERC721Metadata.json
+          file: ../node_modules/@openzeppelin/contracts/build/contracts/IERC721Metadata.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
@@ -23,4 +23,4 @@ dataSources:
           handler: handleApprovalForAll
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./node_modules/@openzeppelin/subgraphs/src/datasources/erc721.ts
+      file: ../node_modules/@openzeppelin/subgraphs/src/datasources/erc721.ts

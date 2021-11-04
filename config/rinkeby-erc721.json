@@ -1,5 +1,5 @@
 {
-  "output": "",
+  "output": "generated/rinkeby-erc721.",
   "chain": "rinkeby",
   "datasources": [
     { "module": "erc721" }

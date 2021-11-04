@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "generate:rinkeby-erc721": "npx graph-compiler --config config/rinkeby-erc721.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "build:rinkeby-erc721": "graph codegen ./schema/rinkeby-erc721/subgraph.yaml && graph build ./schema/rinkeby-erc721/subgraph.yaml",
+    "deploy:rinkeby-erc721": "graph deploy --studio rinkeby-erc721"
+  },
   "dependencies": {
     "@openzeppelin/subgraphs": "^0.1.5"
   }
