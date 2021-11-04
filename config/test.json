@@ -1,0 +1,7 @@
+{
+  "output": "",
+  "chain": "rinkeby",
+  "datasources": [
+    { "module": "erc721" }
+  ]
+}
