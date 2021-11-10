@@ -9,3 +9,24 @@ npx graph-compiler   --config config/<configname>.json   --include node_modules/
 ```
 
 Then, after creating a subgraph on The Graphs app, follow the auth, build and deploy processes 
+
+
+
+## Deployments
+
+
+### Hosted
+#### Rinkeby-ERC 721
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721
+
+#### Goerli-ERC 721
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/goerli-erc721
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/goerli-erc721
+
+#### Rinkeby-ERC 721 & 1155
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721-erc1155

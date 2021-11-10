@@ -4,9 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "generate:rinkeby-erc721_ERC1155": "npx graph-compiler --config config/rinkeby-erc721_ERC1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
     "generate:rinkeby-erc721": "npx graph-compiler --config config/rinkeby-erc721.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
-    "build:rinkeby-erc721": "graph codegen ./schema/rinkeby-erc721/subgraph.yaml && graph build ./schema/rinkeby-erc721/subgraph.yaml",
-    "deploy:rinkeby-erc721": "graph deploy --studio rinkeby-erc721"
+    "generate:goerli-erc721": "npx graph-compiler --config config/goerli-erc721.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "build:rinkeby-erc721_ERC1155": "graph codegen ./generated/rinkeby-erc721_erc1155.subgraph.yaml && graph build ./generated/rinkeby-erc721_erc1155.subgraph.yaml",
+    "build:rinkeby-erc721": "graph codegen ./generated/rinkeby-erc721.subgraph.yaml && graph build ./generated/rinkeby-erc721.subgraph.yaml",
+    "build:goerli-erc721": "graph codegen ./generated/goerli-erc721.subgraph.yaml && graph build ./generated/goerli-erc721.subgraph.yaml",
+    "deploy:studio:rinkeby-erc721": "graph deploy --studio rinkeby-erc721",
+    "deploy:hosted:rinkeby-erc721_erc1155": "graph deploy --product hosted-service ryry79261/rinkeby-erc721-erc1155 ./generated/rinkeby-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:rinkeby-erc721": "graph deploy --product hosted-service ryry79261/rinkeby-erc721 ./generated/rinkeby-erc721.subgraph.yaml" ,
+    "deploy:hosted:goerli-erc721": "graph deploy --product hosted-service ryry79261/goerli-erc721 ./generated/goerli-erc721.subgraph.yaml" 
   },
   "dependencies": {
     "@openzeppelin/subgraphs": "^0.1.5"
