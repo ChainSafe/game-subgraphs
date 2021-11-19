@@ -1,6 +1,6 @@
 {
-  "output": "generated/rinkeby-erc721_erc1155.",
-  "chain": "?",
+  "output": "generated/fuse-erc721_erc1155.",
+  "chain": "fuse",
   "datasources": [
     { "module": ["erc721", "erc1155"] }
   ]

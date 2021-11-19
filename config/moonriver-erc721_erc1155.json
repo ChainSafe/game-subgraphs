@@ -1,0 +1,7 @@
+{
+  "output": "generated/moonriver-erc721_erc1155.",
+  "chain": "moonriver",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}

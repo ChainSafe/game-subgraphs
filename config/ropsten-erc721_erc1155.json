@@ -1,0 +1,7 @@
+{
+  "output": "generated/ropsten-erc721_erc1155.",
+  "chain": "ropsten",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}

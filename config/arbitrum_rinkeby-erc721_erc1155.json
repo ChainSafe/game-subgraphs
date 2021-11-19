@@ -1,0 +1,7 @@
+{
+  "output": "generated/arbitrum_rinkeby-erc721_erc1155.",
+  "chain": "arbitrum-rinkeby",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}

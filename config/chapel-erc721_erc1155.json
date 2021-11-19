@@ -1,0 +1,7 @@
+{
+  "output": "generated/chapel-erc721_erc1155.",
+  "chain": "chapel",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}
