@@ -4,18 +4,49 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "generate:rinkeby-erc721_ERC1155": "npx graph-compiler --config config/rinkeby-erc721_ERC1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
-    "generate:rinkeby-erc721": "npx graph-compiler --config config/rinkeby-erc721.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
-    "generate:goerli-erc721": "npx graph-compiler --config config/goerli-erc721.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
-    "build:rinkeby-erc721_ERC1155": "graph codegen ./generated/rinkeby-erc721_erc1155.subgraph.yaml && graph build ./generated/rinkeby-erc721_erc1155.subgraph.yaml",
+    "generate:erc721_erc1155:avalanche": "npx graph-compiler --config config/avalanche-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:bsc": "npx graph-compiler --config config/bsc-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:fuji": "npx graph-compiler --config config/fuji-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:mainnet": "npx graph-compiler --config config/mainnet-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:mumbai": "npx graph-compiler --config config/mumbai-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:polygon": "npx graph-compiler --config config/polygon-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:rinkeby": "npx graph-compiler --config config/rinkeby-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:sokol": "npx graph-compiler --config config/sokol-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155:xdai": "npx graph-compiler --config config/xdai-erc721_erc1155.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721:rinkeby": "npx graph-compiler --config config/rinkeby-erc721.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721:goerli": "npx graph-compiler --config config/goerli-erc721.json --include node_modules/@openzeppelin/subgraphs/src/datasources --export-schema --export-subgraph",
+    "generate:erc721_erc1155": "yarn generate:erc721_erc1155:mainnet && yarn generate:erc721_erc1155:polygon && yarn generate:erc721_erc1155:mumbai && yarn generate:erc721_erc1155:bsc && yarn generate:erc721_erc1155:avalanche && yarn generate:erc721_erc1155:fuji && yarn generate:erc721_erc1155:xdai && yarn generate:erc721_erc1155:sokol && yarn generate:erc721_erc1155:rinkeby",
+    "build:erc721_erc1155:avalanche": "graph codegen ./generated/avalanche-erc721_erc1155.subgraph.yaml && graph build ./generated/avalanche-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:bsc": "graph codegen ./generated/bsc-erc721_erc1155.subgraph.yaml && graph build ./generated/bsc-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:fuji": "graph codegen ./generated/fuji-erc721_erc1155.subgraph.yaml && graph build ./generated/fuji-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:mainnet": "graph codegen ./generated/mainnet-erc721_erc1155.subgraph.yaml && graph build ./generated/mainnet-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:mumbai": "graph codegen ./generated/mumbai-erc721_erc1155.subgraph.yaml && graph build ./generated/mumbai-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:polygon": "graph codegen ./generated/polygon-erc721_erc1155.subgraph.yaml && graph build ./generated/polygon-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:rinkeby": "graph codegen ./generated/rinkeby-erc721_erc1155.subgraph.yaml && graph build ./generated/rinkeby-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:sokol": "graph codegen ./generated/sokol-erc721_erc1155.subgraph.yaml && graph build ./generated/sokol-erc721_erc1155.subgraph.yaml",
+    "build:erc721_erc1155:xdai": "graph codegen ./generated/xdai-erc721_erc1155.subgraph.yaml && graph build ./generated/xdai-erc721_erc1155.subgraph.yaml",
     "build:rinkeby-erc721": "graph codegen ./generated/rinkeby-erc721.subgraph.yaml && graph build ./generated/rinkeby-erc721.subgraph.yaml",
     "build:goerli-erc721": "graph codegen ./generated/goerli-erc721.subgraph.yaml && graph build ./generated/goerli-erc721.subgraph.yaml",
-    "deploy:studio:rinkeby-erc721": "graph deploy --studio rinkeby-erc721",
-    "deploy:hosted:rinkeby-erc721_erc1155": "graph deploy --product hosted-service ryry79261/rinkeby-erc721-erc1155 ./generated/rinkeby-erc721_erc1155.subgraph.yaml" ,
+    "build:erc721_erc1155": "yarn build:erc721_erc1155:avalanche && yarn build:erc721_erc1155:bsc && yarn build:erc721_erc1155:fuji && yarn build:erc721_erc1155:mainnet && yarn build:erc721_erc1155:mumbai && yarn build:erc721_erc1155:polygon && yarn build:erc721_erc1155:rinkeby && yarn build:erc721_erc1155:sokol && yarn build:erc721_erc1155:xdai",
+    "deploy:hosted:erc721_erc1155:avalanche": "graph deploy --product hosted-service ryry79261/avalanche-erc721-erc1155 ./generated/avalanche-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:bsc": "graph deploy --product hosted-service ryry79261/bsc-erc721-erc1155 ./generated/bsc-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:fuji": "graph deploy --product hosted-service ryry79261/fuji-erc721-erc1155 ./generated/fuji-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:mainnet": "graph deploy --product hosted-service ryry79261/mainnet-erc721-erc1155 ./generated/mainnet-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:mumbai": "graph deploy --product hosted-service ryry79261/mumbai-erc721-erc1155 ./generated/mumbai-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:polygon": "graph deploy --product hosted-service ryry79261/polygon-erc721-erc1155 ./generated/polygon-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:rinkeby": "graph deploy --product hosted-service ryry79261/rinkeby-erc721-erc1155 ./generated/rinkeby-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:sokol": "graph deploy --product hosted-service ryry79261/sokol-erc721-erc1155 ./generated/sokol-erc721_erc1155.subgraph.yaml" ,
+    "deploy:hosted:erc721_erc1155:xdai": "graph deploy --product hosted-service ryry79261/xdai-erc721-erc1155 ./generated/xdai-erc721_erc1155.subgraph.yaml" ,
     "deploy:hosted:rinkeby-erc721": "graph deploy --product hosted-service ryry79261/rinkeby-erc721 ./generated/rinkeby-erc721.subgraph.yaml" ,
-    "deploy:hosted:goerli-erc721": "graph deploy --product hosted-service ryry79261/goerli-erc721 ./generated/goerli-erc721.subgraph.yaml" 
+    "deploy:hosted:goerli-erc721": "graph deploy --product hosted-service ryry79261/goerli-erc721 ./generated/goerli-erc721.subgraph.yaml",
+    "deploy:hosted:erc721_erc1155": "yarn deploy:hosted:erc721_erc1155:avalanche && yarn deploy:hosted:erc721_erc1155:bsc && yarn deploy:hosted:erc721_erc1155:fuji && yarn deploy:hosted:erc721_erc1155:mainnet && yarn deploy:hosted:erc721_erc1155:mumbai && yarn deploy:hosted:erc721_erc1155:polygon && yarn deploy:hosted:erc721_erc1155:rinkeby && yarn deploy:hosted:erc721_erc1155:sokol && yarn deploy:hosted:erc721_erc1155:xdai",
+    "deploy:studio:rinkeby-erc721": "graph deploy --studio rinkeby-erc721"
   },
   "dependencies": {
     "@openzeppelin/subgraphs": "^0.1.5"
   }
 }
+
+
+
+

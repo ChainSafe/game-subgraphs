@@ -1,0 +1,7 @@
+{
+  "output": "generated/polygon-erc721_erc1155.",
+  "chain": "matic",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}

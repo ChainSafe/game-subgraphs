@@ -1,0 +1,7 @@
+{
+  "output": "generated/mumbai-erc721_erc1155.",
+  "chain": "mumbai",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}

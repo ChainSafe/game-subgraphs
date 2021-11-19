@@ -1,0 +1,7 @@
+{
+  "output": "generated/mainnet-erc721_erc1155.",
+  "chain": "mainnet",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}

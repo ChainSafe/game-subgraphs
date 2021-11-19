@@ -1,0 +1,7 @@
+{
+  "output": "generated/bsc-erc721_erc1155.",
+  "chain": "bsc",
+  "datasources": [
+    { "module": ["erc721", "erc1155"] }
+  ]
+}

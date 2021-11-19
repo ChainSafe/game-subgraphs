@@ -14,8 +14,57 @@ Then, after creating a subgraph on The Graphs app, follow the auth, build and de
 
 ## Deployments
 
-
 ### Hosted
+
+### ERC721 & ERC1155
+
+#### Avalanche 
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/avalanche-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/avalanche-erc721-erc1155
+
+#### BSC
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/bsc-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/bsc-erc721-erc1155
+
+#### Fuji
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/fuji-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/fuji-erc721-erc1155
+
+#### Mainnet
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/mainnet-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/mainnet-erc721-erc1155
+
+#### Mumbai
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/mumbai-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/mumbai-erc721-erc1155
+
+#### Polygon
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/polygon-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/polygon-erc721-erc1155
+
+#### Rinkeby
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721-erc1155
+
+#### Sokol
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/sokol-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/sokol-erc721-erc1155
+
+#### xDai
+
+Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/xdai-erc721-erc1155
+Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/xdai-erc721-erc1155
+
+### ERC721 only
+
 #### Rinkeby-ERC 721
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721
@@ -26,7 +75,3 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc7
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/goerli-erc721
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/goerli-erc721
 
-#### Rinkeby-ERC 721 & 1155
-
-Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721-erc1155
-Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721-erc1155
