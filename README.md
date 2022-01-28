@@ -26,6 +26,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/arbitrum-one
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/arbitrum-one-erc721-erc1155
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/arbitrum-one-erc721-erc1155
+
 #### Arbitrum-rinkeby
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/arbitrum-rinkeby-erc721-erc1155
@@ -33,6 +35,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/arbitrum-r
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/arbitrum-rinkeby-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/arbitrum-rinkeby-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/arbitrum-rinkeby-erc721-erc1155
 
 #### Avalanche 
 
@@ -42,6 +46,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/avalanche-er
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/avalanche-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/avalanche-erc721-erc1155
+
 #### BSC
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/bsc-erc721-erc1155
@@ -49,6 +55,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/bsc-erc721
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/bsc-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/bsc-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/bsc-erc721-erc1155
 
 #### Celo
 
@@ -58,6 +66,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/celo-erc721-
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/celo-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/celo-erc721-erc1155
+
 #### Celo-alfajores
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/celo-alfajores-erc721-erc1155
@@ -65,6 +75,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/celo-alfaj
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/celo-alfajores-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/celo-alfajores-erc721-erc1155
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/celo-alfajores-erc721-erc1155
 
 #### Chapel
 
@@ -74,6 +86,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/chapel-erc72
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/chapel-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/chapel-erc721-erc1155
+
 #### Clover
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/clover-erc721-erc1155
@@ -81,6 +95,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/clover-erc
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/clover-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/clover-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/clover-erc721-erc1155
 
 #### Fantom
 
@@ -90,6 +106,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/fantom-erc72
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/fantom-erc721-erc1155
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/fantom-erc721-erc1155
+
 #### Fuji
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/fuji-erc721-erc1155
@@ -97,6 +115,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/fuji-erc72
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/fuji-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/fuji-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/fuji-erc721-erc1155
 
 #### Fuse
 
@@ -106,6 +126,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/fuse-erc721-
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/fuse-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/fuse-erc721-erc1155
+
 #### Goerli
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/goerli-erc721-erc1155
@@ -113,6 +135,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/goerli-erc
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/goerli-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/goerli-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/goerli-erc721-erc1155
 
 #### Kovan
 
@@ -122,6 +146,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/kovan-erc721
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/kovan-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/kovan-erc721-erc1155
+
 #### Optimism
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/optimism-erc721-erc1155
@@ -129,6 +155,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/optimism-e
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/optimism-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/optimism-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/optimism-erc721-erc1155
 
 #### Optimism-kovan
 
@@ -138,6 +166,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/optimism-kov
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/optimism-kovan-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/optimism-kovan-erc721-erc1155
+
 #### Mainnet
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/mainnet-erc721-erc1155
@@ -145,6 +175,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/mainnet-er
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/mainnet-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/mainnet-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/mainnet-erc721-erc1155
 
 #### Mbase
 
@@ -154,6 +186,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/mbase-erc721
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/mbase-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/mbase-erc721-erc1155
+
 #### Moonriver
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/moonriver-erc721-erc1155
@@ -161,6 +195,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/moonriver-
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/moonriver-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/moonriver-erc721-erc1155/
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/moonriver-erc721-erc1155
 
 #### Mumbai
 
@@ -170,6 +206,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/mumbai-erc72
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/mumbai-erc721-erc1155
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/mumbai-erc721-erc1155
+
 #### Polygon
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/polygon-erc721-erc1155
@@ -178,6 +216,7 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/polygon-erc7
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/polygon-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/polygon-erc721-erc1155
 
 #### Ropsten 
 
@@ -187,6 +226,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/ropsten-erc7
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/ropsten-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/ropsten-erc721-erc1155
+
 #### Rinkeby
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc721-erc1155
@@ -195,6 +236,7 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/rinkeby-erc7
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/rinkeby-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/rinkeby-erc721-erc1155
 #### Sokol
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/sokol-erc721-erc1155
@@ -203,6 +245,8 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/sokol-erc721
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/sokol-erc721-erc1155/
 
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/sokol-erc721-erc1155
+
 #### xDai
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/xdai-erc721-erc1155
@@ -210,6 +254,8 @@ Queries (HTTP):     https://api.thegraph.com/subgraphs/name/ryry79261/xdai-erc72
 Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/ryry79261/xdai-erc721-erc1155
 
 URL: https://thegraph.com/hosted-service/subgraph/ryry79261/xdai-erc721-erc1155
+
+v0.1.7-1: https://thegraph.com/hosted-service/subgraph/leon-do/xdai-erc721-erc1155
 
 ### ERC721 only
 
