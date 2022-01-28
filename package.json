@@ -87,7 +87,7 @@
     "deploy:studio:erc721:rinkeby": "graph deploy --studio rinkeby-erc721"
   },
   "dependencies": {
-    "@openzeppelin/subgraphs": "^0.1.5"
+    "@openzeppelin/subgraphs": "^0.1.7-1"
   }
 }
 

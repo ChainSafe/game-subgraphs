@@ -2,33 +2,33 @@
 # yarn lockfile v1
 
 
-"@amxx/graphprotocol-utils@^1.1.0-alpha.0":
-  version "1.1.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@amxx/graphprotocol-utils/-/graphprotocol-utils-1.1.0-alpha.0.tgz#676fac32f30b9aa7c7d41f7f7f5bf8683723bcb8"
-  integrity sha512-kZt8NfaUxYi0ifcPHveXusKzdLHmydc7amCabmRw51rfzB08oHUfvIOFh85lTBQrftjv7WsxHw5QpNaCNlAU3A==
+"@amxx/graphprotocol-utils@^1.1.0-alpha.2":
+  version "1.1.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@amxx/graphprotocol-utils/-/graphprotocol-utils-1.1.0-alpha.2.tgz#a9203de9b4073a28e3fbccc4644737d60f399520"
+  integrity sha512-fK8VG7pd/XAqSFSUZrAbfzxgbEJTgwbJ0+OtFZ73l9siES2VaQ0Tzxo6qBmzfV1tZQZwP+s5qUC9uzJ+hheSOA==
   dependencies:
-    "@graphprotocol/graph-ts" "^0.22.1"
+    "@graphprotocol/graph-ts" "^0.24.0"
     yargs "^17.2.1"
 
-"@graphprotocol/graph-ts@^0.22.1":
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.22.1.tgz#3189b2495b33497280f617316cce68074d48e236"
-  integrity sha512-T5xrHN0tHJwd7ZnSTLhk5hAL3rCIp6rJ40kBCrETnv1mfK9hVyoojJK6VtBQXTbLsYtKe4SYjjD0cdOsAR9QiA==
+"@graphprotocol/graph-ts@^0.24.0":
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/@graphprotocol/graph-ts/-/graph-ts-0.24.1.tgz#50961b52b5383f9c5cf5e6e23fa039f24e729ddf"
+  integrity sha512-2vU4m5ZPQIqMlMce/z5vmOtGHRlRmcRhMfemS3NIwxCSxSBGVnX2zb7QBTzzdQKGwsAZdbz6V0okkOtvohELfQ==
   dependencies:
     assemblyscript "0.19.10"
 
-"@openzeppelin/contracts@^4.3.2":
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.3.2.tgz#ff80affd6d352dbe1bbc5b4e1833c41afd6283b6"
-  integrity sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==
+"@openzeppelin/contracts@^4.5.0-rc.0":
+  version "4.5.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.5.0-rc.0.tgz#dbe4c4380ddf715230fd14da7818142e0c6ba020"
+  integrity sha512-B6mKfiivxytZLAVgPARXZ5Q/grRpplASm7VgY73PdO3u5ckF6ibMpNwZYT/16Ys3ORaDyylSgJI1PttLZiJ0Lw==
 
-"@openzeppelin/subgraphs@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/subgraphs/-/subgraphs-0.1.5.tgz#a1329b3982266d444983c44ae0aecb093a34513a"
-  integrity sha512-FHc/rMPXmLiha1jYnpVvraFGvsKwVssjnzn8AuvloKJSOFU13meydCT9+hRrKb6EycHkTmPZf+7mnb7kyiSX/g==
+"@openzeppelin/subgraphs@^0.1.7-1":
+  version "0.1.7-1"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/subgraphs/-/subgraphs-0.1.7-1.tgz#4178baeec4dc456f2373b8832091d7389123780a"
+  integrity sha512-v81MLScb/3ND2FXlAn5eIF9KkGpdsFqhVeH9vCVa7/SsNcMAUYydTBUi1W1bG6+bLiO+4PvlYv+izwzbMe8E7w==
   dependencies:
-    "@amxx/graphprotocol-utils" "^1.1.0-alpha.0"
-    "@openzeppelin/contracts" "^4.3.2"
+    "@amxx/graphprotocol-utils" "^1.1.0-alpha.2"
+    "@openzeppelin/contracts" "^4.5.0-rc.0"
 
 ansi-regex@^5.0.1:
   version "5.0.1"
@@ -106,7 +106,7 @@ require-directory@^2.1.1:
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
   integrity sha1-jGStX9MNqxyXbiNE/+f3kqam30I=
 
-string-width@^4.1.0, string-width@^4.2.0:
+string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -136,20 +136,20 @@ y18n@^5.0.5:
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-5.0.8.tgz#7f4934d0f7ca8c56f95314939ddcd2dd91ce1d55"
   integrity sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==
 
-yargs-parser@^20.2.2:
-  version "20.2.9"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.9.tgz#2eb7dc3b0289718fc295f362753845c41a0c94ee"
-  integrity sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==
+yargs-parser@^21.0.0:
+  version "21.0.0"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.0.0.tgz#a485d3966be4317426dd56bdb6a30131b281dc55"
+  integrity sha512-z9kApYUOCwoeZ78rfRYYWdiU/iNL6mwwYlkkZfJoyMR1xps+NEBX5X7XmRpxkZHhXJ6+Ey00IwKxBBSW9FIjyA==
 
 yargs@^17.2.1:
-  version "17.2.1"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.2.1.tgz#e2c95b9796a0e1f7f3bf4427863b42e0418191ea"
-  integrity sha512-XfR8du6ua4K6uLGm5S6fA+FIJom/MdJcFNVY8geLlp2v8GYbOXD4EB1tPNZsRn4vBzKGMgb5DRZMeWuFc2GO8Q==
+  version "17.3.1"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.3.1.tgz#da56b28f32e2fd45aefb402ed9c26f42be4c07b9"
+  integrity sha512-WUANQeVgjLbNsEmGk20f+nlHgOqzRFpiGWVaBrYGYIGANIIu3lWjoyi0fNlFmJkvfhCZ6BXINe7/W2O2bV4iaA==
   dependencies:
     cliui "^7.0.2"
     escalade "^3.1.1"
     get-caller-file "^2.0.5"
     require-directory "^2.1.1"
-    string-width "^4.2.0"
+    string-width "^4.2.3"
     y18n "^5.0.5"
-    yargs-parser "^20.2.2"
+    yargs-parser "^21.0.0"
