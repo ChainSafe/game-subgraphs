@@ -82,38 +82,11 @@
     "deploy:hosted:erc721_erc1155:ropsten": "graph deploy --product hosted-service ryry79261/ropsten-erc721-erc1155 ./generated/ropsten-erc721_erc1155.subgraph.yaml",
     "deploy:hosted:erc721_erc1155:sokol": "graph deploy --product hosted-service ryry79261/sokol-erc721-erc1155 ./generated/sokol-erc721_erc1155.subgraph.yaml",
     "deploy:hosted:erc721_erc1155:xdai": "graph deploy --product hosted-service ryry79261/xdai-erc721-erc1155 ./generated/xdai-erc721_erc1155.subgraph.yaml",
-    "deploy:hosted:erc721:rinkeby": "graph deploy --product hosted-service ryry79261/rinkeby-erc721 ./generated/rinkeby-erc721.subgraph.yaml" ,
+    "deploy:hosted:erc721:rinkeby": "graph deploy --product hosted-service ryry79261/rinkeby-erc721 ./generated/rinkeby-erc721.subgraph.yaml",
     "deploy:hosted:erc721:goerli": "graph deploy --product hosted-service ryry79261/goerli-erc721 ./generated/goerli-erc721.subgraph.yaml",
     "deploy:studio:erc721:rinkeby": "graph deploy --studio rinkeby-erc721"
   },
   "dependencies": {
-    "@openzeppelin/subgraphs": "^0.1.7-1"
+    "@openzeppelin/subgraphs": "^0.1.8-5"
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

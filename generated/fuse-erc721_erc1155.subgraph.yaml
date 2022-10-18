@@ -1,6 +1,14 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
+features: 
+  - nonFatalErrors
+  - grafting
+  - fullTextSearch
+  - ipfsOnEthereumContracts
 schema:
   file: fuse-erc721_erc1155.schema.graphql
+graft: 
+  base: 
+  block: 
 dataSources:
   - kind: ethereum/contract
     name: erc721
