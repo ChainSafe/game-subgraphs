@@ -84,6 +84,7 @@
     "deploy:hosted:erc721_erc1155:xdai": "graph deploy --product hosted-service ryry79261/xdai-erc721-erc1155 ./generated/xdai-erc721_erc1155.subgraph.yaml",
     "deploy:hosted:erc721:rinkeby": "graph deploy --product hosted-service ryry79261/rinkeby-erc721 ./generated/rinkeby-erc721.subgraph.yaml" ,
     "deploy:hosted:erc721:goerli": "graph deploy --product hosted-service ryry79261/goerli-erc721 ./generated/goerli-erc721.subgraph.yaml",
+    "deploy:hosted:test:erc721_erc1155:goerli": "graph deploy --product hosted-service ryry79261/1155-721-testing-graph ./core/subgraph.yaml",
     "deploy:studio:erc721:rinkeby": "graph deploy --studio rinkeby-erc721"
   },
   "dependencies": {
