@@ -42,8 +42,8 @@ export function handleTransfer(event: TransferEvent): void {
   let tokenNFTContract = NFTContract.load(nftContractId);
   if (tokenNFTContract == null) {
     // check whether this nftContract has already been verified to be non-ERC721 contract to avoid to make contract calls again.
-    let previousNonERC721NFTContract = NonNFTContract.load(nftContractId);
-    if (previousNonERC721NFTContract != null) {NonNFTContract
+    let previousNonNFTContract = NonNFTContract.load(nftContractId);
+    if (previousNonNFTContract != null) {NonNFTContract
       return;
     }
 
@@ -199,6 +199,7 @@ function getOrCreateNFTContract(
   tokenNFTContract.tokenCount = BIGINT_ZERO;
   tokenNFTContract.ownerCount = BIGINT_ZERO;
   tokenNFTContract.transferCount = BIGINT_ZERO;
+  tokenNFTContract.nftType = "721";
 
   let name = contract.try_name();
   if (!name.reverted) {
@@ -254,6 +255,7 @@ function createTransfer(event: TransferEvent): Transfer {
   transfer.to = event.params.to.toHex();
   transfer.blockNumber = event.block.number;
   transfer.timestamp = event.block.timestamp;
+  transfer.value = BIGINT_ONE;
 
   return transfer;
 }

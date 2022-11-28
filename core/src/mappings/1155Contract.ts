@@ -1,9 +1,10 @@
 import { store, Bytes, ethereum } from "@graphprotocol/graph-ts";
 
 import {
-  Transfer as TransferEvent,
-  ERC721,
-} from "../../../generated/ERC721/ERC721";
+  TransferSingle as TransferSingleEvent,
+  TransferBatch as TransferBatchEvent,
+  ERC1155,
+} from "../../../generated/ERC1155/ERC1155";
 import {
   NFTContract,
   NFTContractDailySnapshot,
@@ -24,9 +25,9 @@ import {
   getOrCreateAccountBalance,
   updateAccountBalanceDailySnapshot,
 } from "./account";
-import { normalize, getOrCreateToken, updateTokenMetadata } from "./token";
+import { normalize, getOrCreate1155Token, updateTokenMetadata } from "./token";
 
-export function handleTransfer(event: TransferEvent): void {
+export function handleTransferSingle(event: TransferSingleEvent): void {
   let from = event.params.from.toHex();
   let to = event.params.to.toHex();
   if (from == GENESIS_ADDRESS && to == GENESIS_ADDRESS) {
@@ -38,26 +39,24 @@ export function handleTransfer(event: TransferEvent): void {
   let tokenId = event.params.id;
   let id = event.address.toHex() + "-" + tokenId.toString();
   let nftContractId = event.address.toHex();
-  let contract = ERC721.bind(event.address);
+  let contract = ERC1155.bind(event.address);
   let tokenNFTContract = NFTContract.load(nftContractId);
   if (tokenNFTContract == null) {
     // check whether this nftContract has already been verified to be non-ERC721 contract to avoid to make contract calls again.
-    let previousNonERC721NFTContract = NonNFTContract.load(nftContractId);
-    if (previousNonERC721NFTContract != null) {
+    let previousNonNFTContract = NonNFTContract.load(nftContractId);
+    if (previousNonNFTContract != null) {
       return;
     }
 
-    if (!isERC721Supported(contract)) {
-      let newNonERC721NFTContract = new NonNFTContract(nftContractId);
-      newNonERC721NFTContract.save();
+    if (!isERC1155Supported(contract)) {
+      let newNonNFTContract = new NonNFTContract(nftContractId);
+      newNonNFTContract.save();
       return;
     }
 
-    let supportsERC721Metadata = supportsInterface(contract, "5b5e139f");
     tokenNFTContract = getOrCreateNFTContract(
       contract,
       nftContractId,
-      supportsERC721Metadata
     );
   }
 
@@ -97,6 +96,8 @@ export function handleTransfer(event: TransferEvent): void {
   // update metrics on the receiver side
   if (to == GENESIS_ADDRESS) {
     // burn an existing token
+
+    // TODO: deduct total
     store.remove("Token", id);
     tokenNFTContract.tokenCount = tokenNFTContract.tokenCount.minus(BIGINT_ONE);
   } else {
@@ -105,7 +106,7 @@ export function handleTransfer(event: TransferEvent): void {
     newOwner.tokenCount = newOwner.tokenCount.plus(BIGINT_ONE);
     newOwner.save();
 
-    let token = getOrCreateToken(
+    let token = getOrCreate1155Token(
       contract,
       tokenNFTContract,
       tokenId,
@@ -140,7 +141,7 @@ export function handleTransfer(event: TransferEvent): void {
     let existingToken = Token.load(tokenNFTContract.id + "-" + tokenId.toString());
     if (existingToken == null) {
       // Store metadata for the specific tokenId.
-      let currentToken = getOrCreateToken(contract, tokenNFTContract, tokenId, event.block.timestamp, event.block.number);
+      let currentToken = getOrCreate1155Token(contract, tokenNFTContract, tokenId, event.block.timestamp, event.block.number);
       let newOwner = getOrCreateAccount(to);
       currentToken.owner = newOwner.id;
       currentToken.save();
@@ -150,7 +151,7 @@ export function handleTransfer(event: TransferEvent): void {
     } else {
       // previousToken isn't null which means the metadata for the tokenId was stored before.
       // So check whether the tokenURI has changed to decide whether the metadata need to be updated.
-      let metadataURI = contract.try_tokenURI(tokenId);
+      let metadataURI = contract.try_uri(tokenId);
       if (!metadataURI.reverted) {
         let tokenURI = normalize(metadataURI.value);
         if (tokenURI.length > 0 && tokenURI != existingToken.tokenURI) {
@@ -183,9 +184,8 @@ export function handleTransfer(event: TransferEvent): void {
 }
 
 function getOrCreateNFTContract(
-  contract: ERC721,
+  contract: ERC1155,
   NFTContractAddress: string,
-  supportsERC721Metadata: boolean
 ): NFTContract {
   let previousTokenNFTContract = NFTContract.load(NFTContractAddress);
 
@@ -194,20 +194,13 @@ function getOrCreateNFTContract(
   }
 
   let tokenNFTContract = new NFTContract(NFTContractAddress);
-  tokenNFTContract.supportsERC721Metadata = supportsERC721Metadata;
+  tokenNFTContract.supportsERC721Metadata = false;
   tokenNFTContract.tokenURIUpdated = false;
   tokenNFTContract.tokenCount = BIGINT_ZERO;
   tokenNFTContract.ownerCount = BIGINT_ZERO;
   tokenNFTContract.transferCount = BIGINT_ZERO;
 
-  let name = contract.try_name();
-  if (!name.reverted) {
-    tokenNFTContract.name = normalize(name.value);
-  }
-  let symbol = contract.try_symbol();
-  if (!symbol.reverted) {
-    tokenNFTContract.symbol = normalize(symbol.value);
-  }
+  tokenNFTContract.nftType = "1155";
 
   return tokenNFTContract;
 }
@@ -237,7 +230,7 @@ function getOrCreateNFTContractDailySnapshot(
   return newSnapshot;
 }
 
-function createTransfer(event: TransferEvent): Transfer {
+function createTransfer(event: TransferSingleEvent): Transfer {
   let transfer = new Transfer(
     event.address.toHex() +
       "-" +
@@ -252,6 +245,55 @@ function createTransfer(event: TransferEvent): Transfer {
   transfer.tokenId = event.params.id;
   transfer.from = event.params.from.toHex();
   transfer.to = event.params.to.toHex();
+  transfer.value = event.params.value;
+  transfer.operator = event.params.operator.toHex();
+  transfer.blockNumber = event.block.number;
+  transfer.timestamp = event.block.timestamp;
+
+  return transfer;
+}
+
+
+function createTransferFromBatch(event: TransferBatchEvent): Transfer {
+  for(let i = 0; i < event.params.ids.length; i++) {
+    let transfer = new Transfer(
+      event.address.toHex() +
+        "-" +
+        event.transaction.hash.toHex() +
+        "-" +
+        event.logIndex.toString()
+    );
+    transfer.hash = event.transaction.hash.toHex();
+    transfer.logIndex = event.logIndex.toI32();
+    transfer.nftContract = event.address.toHex();
+    transfer.nonce = event.transaction.nonce.toI32();
+    transfer.tokenId = event.params.id;
+    transfer.from = event.params.from.toHex();
+    transfer.to = event.params.to.toHex();
+    transfer.value = event.params.value;
+    transfer.operator = event.params.operator.toHex();
+    transfer.blockNumber = event.block.number;
+    transfer.timestamp = event.block.timestamp;
+  
+    return transfer;
+  }
+  
+  let transfer = new Transfer(
+    event.address.toHex() +
+      "-" +
+      event.transaction.hash.toHex() +
+      "-" +
+      event.logIndex.toString()
+  );
+  transfer.hash = event.transaction.hash.toHex();
+  transfer.logIndex = event.logIndex.toI32();
+  transfer.nftContract = event.address.toHex();
+  transfer.nonce = event.transaction.nonce.toI32();
+  transfer.tokenId = event.params.id;
+  transfer.from = event.params.from.toHex();
+  transfer.to = event.params.to.toHex();
+  transfer.value = event.params.value;
+  transfer.operator = event.params.operator.toHex();
   transfer.blockNumber = event.block.number;
   transfer.timestamp = event.block.timestamp;
 
@@ -260,7 +302,7 @@ function createTransfer(event: TransferEvent): Transfer {
 
 
 function supportsInterface(
-  contract: ERC721,
+  contract: ERC1155,
   interfaceId: string,
   expected: boolean = true
 ): boolean {
@@ -270,14 +312,14 @@ function supportsInterface(
   return !supports.reverted && supports.value == expected;
 }
 
-function isERC721Supported(contract: ERC721): boolean {
+function isERC1155Supported(contract: ERC1155): boolean {
   let supportsERC165Identifier = supportsInterface(contract, "01ffc9a7");
   if (!supportsERC165Identifier) {
     return false;
   }
 
-  let supportsERC721Identifier = supportsInterface(contract, "80ac58cd");
-  if (!supportsERC721Identifier) {
+  let supportsERC1155Identifier = supportsInterface(contract, "d9b67a26");
+  if (!supportsERC1155Identifier) {
     return false;
   }
 
