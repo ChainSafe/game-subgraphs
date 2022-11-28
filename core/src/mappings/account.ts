@@ -1,4 +1,4 @@
-import { ethereum } from "@graphprotocol/graph-ts";
+import { ethereum, BigInt } from "@graphprotocol/graph-ts";
 
 import {
   Account,
@@ -22,7 +22,8 @@ export function getOrCreateAccount(accountAddress: string): Account {
 
 export function getOrCreateAccountBalance(
   account: string,
-  collection: string
+  collection: string,
+  blockNumber: BigInt
 ): AccountBalance {
   let balanceId = account + "-" + collection;
   let previousBalance = AccountBalance.load(balanceId);
@@ -35,6 +36,7 @@ export function getOrCreateAccountBalance(
   newBalance.account = account;
   newBalance.collection = collection;
   newBalance.tokenCount = BIGINT_ZERO;
+  newBalance.blockNumber = blockNumber;
 
   return newBalance;
 }

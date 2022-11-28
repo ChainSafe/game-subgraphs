@@ -42,11 +42,6 @@ export function handleTransfer(event: Transfer): void {
     tokenCollection.save();
   }
 
-  // Only if the collection supports ERC721 metadata, the detailed token metadata information will be stored.
-  if (!tokenCollection.supportsERC721Metadata) {
-    return;
-  }
-
   let existingToken = Token.load(tokenCollection.id + "-" + tokenId.toString());
   if (existingToken == null) {
     // Store metadata for the specific tokenId.
@@ -55,6 +50,11 @@ export function handleTransfer(event: Transfer): void {
 
     tokenCollection.tokenCount = tokenCollection.tokenCount.plus(BIGINT_ONE);
     tokenCollection.save();
+    return;
+  }
+
+  // Only if the collection supports ERC721 metadata, the detailed token metadata information will be stored.
+  if (!tokenCollection.supportsERC721Metadata) {
     return;
   }
 

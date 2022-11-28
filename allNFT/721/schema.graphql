@@ -14,7 +14,7 @@ type Token @entity {
   collection: Collection!
 
   " ID of the token from the collection "
-  tokenID: BigInt!
+  tokenId: BigInt!
 
   " URI of the token "
   tokenURI: String

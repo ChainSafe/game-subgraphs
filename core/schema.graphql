@@ -3,83 +3,153 @@
 # Version: 1.0.0
 
 #############################
-####### Token Metadata ######
+####### 721/1155 Token Metadata ######
 #############################
 
 type Token @entity {
   " Address of the token, { Contract Address }-{ Token ID }  "
   id: ID!
 
-  " Collection for the token "
-  collection: Collection!
+  " NFTContract for the token "
+  nftContract: NFTContract!
 
-  " ID of the token from the collection "
-  tokenID: BigInt!
+  " ID of the token from the NFTContract "
+  tokenId: BigInt!
 
   " URI of the token "
   tokenURI: String
 
   " The owner for the token "
-  owner: Account!
+  owners: [Account!]!
 
   " Timestamp of the token's mint "
   mintTime: BigInt!
+  
+  " Describes the asset to which this token represents, defined in OpenSea metadata standards "
+  description: String
+
+  " URL which allows users to view the item on the colletion's site, defined in OpenSea metadata standards "
+  externalURI: String
+
+  " A URI pointing to a resource with mime type image, defined in OpenSea metadata standards "
+  imageURI: String
+
+  " Identifies the asset to which this token represents, defined in OpenSea metadata standards "
+  name: String
+
+  " Attributes for the token metadata, defined in OpenSea metadata standards "
+  attributes: [Attribute!] @derivedFrom(field: "token")
+
+  " Background color of the item, defined in OpenSea metadata standards "
+  backgroundColor: String
+
+  " A link to a multi-media attachment for the item, defined in OpenSea metadata standards "
+  animationURI: String
+
+  " A link to a YouTube video, defined in OpenSea metadata standards "
+  youtubeURI: String
+
+  " Block number when the subgraph gets the tokenURI and retrieves the detailed metadata information "
+  blockNumber: BigInt!
+
+  " Timestamp when the subgraph gets the tokenURI and retrieves the detailed metadata information "
+  timestamp: BigInt!
+
+  " Number of tokens minted"
+  amount: BigInt! 
+}
+
+
+########################################
+####### Token Attributes Metadata ######
+########################################
+
+type Attribute @entity {
+  " { Contract ID }-{ Token ID }-{ Trait type } "
+  id: ID!
+
+  " The nftContract for the trait "
+  nftContract: NFTContract!
+
+  " ID of the token from the nftContract  "
+  tokenId: BigInt!
+
+  " Token metadata this attribute belongs to "
+  token: Token!
+
+  " Name of the trait, defined in OpenSea metadata standards "
+  traitType: String!
+
+  " Value of the trait, defined in OpenSea metadata standards "
+  value: String
+
+  " Maximum value for a numerical trait's possible values, defined in OpenSea metadata standards "
+  maxValue: String
+
+  " Indicates how the trait should be displayed, defined in OpenSea metadata standards "
+  displayType: String
 }
 
 #########################################
-####### ERC721 Collection Metadata ######
+####### ERC721 nftContract Metadata ######
 #########################################
 
-type Collection @entity {
-  " ERC721 collection address "
+type NFTContract @entity {
+  " ERC721/1155 nftContract address "
   id: ID!
 
-  " Name of the collection "
+  " Name of the nftContract "
   name: String
 
-  " Symbol of the collection "
+  " Symbol of the nftContract "
   symbol: String
+
+  " Type of NFT contract"
+  nftType: String!
 
   " Flag for whether ERC721 metadata is supported "
   supportsERC721Metadata: Boolean!
 
-  " Total number of unique minted tokens in the collection "
+  " Flag for whether the tokenURI in the nftContract has been updated  "
+  tokenURIUpdated: Boolean!
+
+  " Total number of unique minted tokens in the nftContract "
   tokenCount: BigInt!
 
-  " Total number of unique token owners holding tokens in the collection "
+  " Total number of unique token owners holding tokens in the nftContract "
   ownerCount: BigInt!
 
   " Total number of token transfer events "
   transferCount: BigInt!
 
-  " Tokens in the collection "
-  tokens: [Token!]! @derivedFrom(field: "collection")
+  " Tokens in the nftContract "
+  tokens: [Token!]! @derivedFrom(field: "nftContract")
 
   " List of token transfers "
-  transfers: [Transfer!]! @derivedFrom(field: "collection")
+  transfers: [Transfer!]! @derivedFrom(field: "nftContract")
 
   " Token holder's balance "
-  holdersBalance: [AccountBalance!]! @derivedFrom(field: "collection")
+  holdersBalance: [AccountBalance!]! @derivedFrom(field: "nftContract")
 
   ##### Snapshots #####
 
-  " Daily snapshot for this collection "
-  dailyCollectionSnapshot: [CollectionDailySnapshot!]!
-    @derivedFrom(field: "collection")
+  " Daily snapshot for this nftContract "
+  dailyNftContractSnapshot: [NFTContractDailySnapshot!]!
+    @derivedFrom(field: "nftContract")
 }
 
 ###############################################
-####### ERC721 Collection Timeseries ######
+####### ERC721/1155 NFTContract Timeseries ######
 ###############################################
 
-type CollectionDailySnapshot @entity {
-  " { collection address }-{ # of days since Unix epoch time } "
+type NFTContractDailySnapshot @entity {
+  " { nftContract address }-{ # of days since Unix epoch time } "
   id: ID!
 
-  " Collection this snapshot is associated with "
-  collection: Collection!
+  " NFTContract this snapshot is associated with "
+  nftContract: NFTContract!
 
-  " Total number of unique tokens in the collection for the specific day "
+  " Total number of unique tokens in the nftContract for the specific day "
   tokenCount: BigInt!
 
   " Total number of unique token owners in the collection for the specific day "
@@ -109,8 +179,8 @@ type Transfer @entity {
   " Event log index. For transactions that don't emit event, create arbitrary index starting from 0 "
   logIndex: Int!
 
-  " The ERC721 Collection this event belongs to "
-  collection: Collection!
+  " The ERC721/1155 nftContract this event belongs to "
+  nftContract: NFTContract!
 
   " Nonce of the transaction that emitted this event "
   nonce: Int!
@@ -124,6 +194,12 @@ type Transfer @entity {
   " Account that sent the tokens "
   from: Account!
 
+  " Operator which executed the transaction "
+  operator: Account
+
+  " Amount transfered "
+  value: BigInt!
+
   " Block number of this event "
   blockNumber: BigInt!
 
@@ -135,6 +211,14 @@ type Transfer @entity {
 ######## Account MetaData ########
 ##################################
 
+type TokenBalance @entity {
+  " { Address Of the Account }-{ Address of the NFTContract }-{ TokenId } "
+  id: ID!
+
+  " Current balance of the account "
+  balance: BigInt!
+}
+
 # An account is a unique Ethereum address
 type Account @entity {
   " Address of the account "
@@ -144,7 +228,7 @@ type Account @entity {
   tokenCount: BigInt!
 
   " Tokens that this account holds "
-  tokens: [Token!]! @derivedFrom(field: "owner")
+  tokens: [Token!]!
 
   " Token transfers to this account "
   transferTo: [Transfer!]! @derivedFrom(field: "to")
@@ -161,16 +245,16 @@ type Account @entity {
 }
 
 type AccountBalance @entity {
-  " { Address Of the Account }-{ Address of the Collection }"
+  " { Address Of the Account }-{ Address of the NFTContract }"
   id: ID!
 
   " Account address "
   account: Account!
 
-  " Collection address "
-  collection: Collection!
+  " NFTContract address "
+  nftContract: NFTContract!
 
-  " Current token amount for the collection "
+  " Current token amount for the NFTContract "
   tokenCount: BigInt!
 
   " Block number in which the balance was last modified "
@@ -178,6 +262,9 @@ type AccountBalance @entity {
 
   " Timestamp in which the balance was last modified "
   timestamp: BigInt!
+
+  " Token balances that this account holds "
+  tokenBalances: [TokenBalance!]!
 }
 
 ###############################
@@ -191,11 +278,14 @@ type AccountBalanceDailySnapshot @entity {
   " Account address "
   account: Account!
 
-  " Collection address "
-  collection: Collection!
+  " NFTContract address "
+  nftContract: NFTContract!
 
-  " Current token amount for the collection "
+  " Current token amount for the nft contract "
   tokenCount: BigInt!
+
+  " Token balances that this account holds "
+  tokenBalances: [TokenBalance!]!
 
   " Block number in which the balance was last modified "
   blockNumber: BigInt!
@@ -205,10 +295,10 @@ type AccountBalanceDailySnapshot @entity {
 }
 
 #####################################
-####### Non ERC721 Collections ######
+####### Non ERC721/1155 NFTContracts ######
 #####################################
 
-type NonERC721Collection @entity {
-  " Non ERC721 Smart contract address "
+type NonNFTContract @entity {
+  " Non ERC721/1155 Smart contract address "
   id: ID!
 }

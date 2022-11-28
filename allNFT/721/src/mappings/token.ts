@@ -31,7 +31,7 @@ export function getOrCreateToken(
 
   let newToken = new Token(contractTokenId);
   newToken.collection = tokenCollection.id;
-  newToken.tokenID = tokenId;
+  newToken.tokenId = tokenId;
   newToken.mintTime = timestamp;
   if (tokenCollection.supportsERC721Metadata) {
     let metadataURI = contract.try_tokenURI(tokenId);
