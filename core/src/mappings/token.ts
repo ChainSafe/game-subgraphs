@@ -11,7 +11,8 @@ import {
 import { ERC721 } from "../../../generated/ERC721/ERC721";
 import { ERC1155 } from "../../../generated/ERC1155/ERC1155";
 import { Token, Attribute, NFTContract } from "../../../generated/schema";
-import { BIGINT_ONE, IPFS_PREFIX, IPFS_PREFIX_LEN, IPFS_SLASH, IPFS_SLASH_LEN } from "../common/constants";
+import { BIGINT_ONE, BIGINT_ZERO, IPFS_PREFIX, IPFS_PREFIX_LEN, IPFS_SLASH, IPFS_SLASH_LEN } from "../common/constants";
+import { AttributeId, TokenId } from "./ids";
 
 export function normalize(strValue: string): string {
   if (strValue.length == 1 && strValue.charCodeAt(0) == 0) {
@@ -34,7 +35,7 @@ export function getOrCreate721Token(
   timestamp: BigInt,
   blockNumber: BigInt
 ): Token {
-  let contractTokenId = tokenNFTContract.id + "-" + tokenId.toString();
+  let contractTokenId = TokenId(tokenNFTContract.id, tokenId.toString());
   let existingToken = Token.load(contractTokenId);
 
   if (existingToken != null) {
@@ -65,7 +66,7 @@ export function getOrCreate1155Token(
   timestamp: BigInt,
   blockNumber: BigInt
 ): Token {
-  let contractTokenId = tokenNFTContract.id + "-" + tokenId.toString();
+  let contractTokenId = TokenId(tokenNFTContract.id, tokenId.toString());
   let existingToken = Token.load(contractTokenId);
 
   if (existingToken != null) {
@@ -78,11 +79,11 @@ export function getOrCreate1155Token(
   newToken.mintTime = timestamp;
   newToken.blockNumber = blockNumber;
   newToken.timestamp = timestamp;
-  if (tokenNFTContract.supportsERC721Metadata) {
-    let metadataURI = contract.try_uri(tokenId);
-    if (!metadataURI.reverted) {
-      newToken.tokenURI = normalize(metadataURI.value);
-    }
+  newToken.amount = BIGINT_ZERO;
+
+  let metadataURI = contract.try_uri(tokenId);
+  if (!metadataURI.reverted) {
+    newToken.tokenURI = normalize(metadataURI.value);
   }
 
   return newToken;
@@ -178,7 +179,7 @@ export function updateTokenMetadata(event: ethereum.Event, token: Token): Token 
       maxValueString = maxValueJson.toF64().toString();
     }
 
-    let attribute = new Attribute(token.id + "-" + trait!);
+    let attribute = new Attribute(AttributeId(token.id, trait!));
     attribute.nftContract = token.nftContract;
     attribute.tokenId = token.tokenId;
     attribute.token = token.id;
@@ -190,7 +191,6 @@ export function updateTokenMetadata(event: ethereum.Event, token: Token): Token 
   }
   return token;
 }
-
 
 function valueToString(value: JSONValue | null): string | null {
   if (value != null && value.kind == JSONValueKind.STRING) {

@@ -6,7 +6,8 @@ import {
   AccountBalanceDailySnapshot,
   TokenBalance,
 } from "../../../generated/schema";
-import { BIGINT_ZERO, SECONDS_PER_DAY } from "../common/constants";
+import { BIGINT_ZERO } from "../common/constants";
+import { AccountBalanceId, SnapshotId, TokenBalanceId } from "./ids";
 
 export function getOrCreateAccount(accountAddress: string): Account {
   let existingAccount = Account.load(accountAddress);
@@ -27,7 +28,7 @@ export function getOrCreateAccountBalance(
   nftContract: string,
   blockNumber: BigInt
 ): AccountBalance {
-  let balanceId = account + "-" + nftContract;
+  let balanceId = AccountBalanceId(account, nftContract);
   let previousBalance = AccountBalance.load(balanceId);
 
   if (previousBalance != null) {
@@ -47,9 +48,9 @@ export function getOrCreateAccountBalance(
 export function getOrCreateTokenBalance(
   account: string,
   nftContract: string,
-  tokenId: string,
+  rawTokenId: string,
 ): TokenBalance {
-  let balanceId = account + "-" + nftContract + "-" + tokenId;
+  let balanceId = TokenBalanceId(account, nftContract, rawTokenId);
   let previousBalance = TokenBalance.load(balanceId);
 
   if (previousBalance != null) {
@@ -62,6 +63,7 @@ export function getOrCreateTokenBalance(
 
   return newBalance;
 }
+
 
 export function updateAccountBalanceDailySnapshot(
   balance: AccountBalance,
@@ -80,12 +82,7 @@ function getOrCreateAccountBalanceDailySnapshot(
   balance: AccountBalance,
   block: ethereum.Block
 ): AccountBalanceDailySnapshot {
-  let snapshotId =
-    balance.account +
-    "-" +
-    balance.nftContract +
-    "-" +
-    (block.timestamp.toI64() / SECONDS_PER_DAY).toString();
+  let snapshotId = SnapshotId(balance, block)
   let previousSnapshot = AccountBalanceDailySnapshot.load(snapshotId);
 
   if (previousSnapshot != null) {
