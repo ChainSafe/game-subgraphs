@@ -601,13 +601,38 @@ export class Transfer extends Entity {
     this.set("nonce", Value.fromI32(value));
   }
 
-  get tokenId(): BigInt {
+  get tokenId(): BigInt | null {
     let value = this.get("tokenId");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set tokenId(value: BigInt) {
-    this.set("tokenId", Value.fromBigInt(value));
+  set tokenId(value: BigInt | null) {
+    if (!value) {
+      this.unset("tokenId");
+    } else {
+      this.set("tokenId", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get tokenIds(): Array<BigInt> | null {
+    let value = this.get("tokenIds");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigIntArray();
+    }
+  }
+
+  set tokenIds(value: Array<BigInt> | null) {
+    if (!value) {
+      this.unset("tokenIds");
+    } else {
+      this.set("tokenIds", Value.fromBigIntArray(<Array<BigInt>>value));
+    }
   }
 
   get to(): string {
@@ -645,13 +670,38 @@ export class Transfer extends Entity {
     }
   }
 
-  get value(): BigInt {
+  get value(): BigInt | null {
     let value = this.get("value");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set value(value: BigInt) {
-    this.set("value", Value.fromBigInt(value));
+  set value(value: BigInt | null) {
+    if (!value) {
+      this.unset("value");
+    } else {
+      this.set("value", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get values(): Array<BigInt> | null {
+    let value = this.get("values");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigIntArray();
+    }
+  }
+
+  set values(value: Array<BigInt> | null) {
+    if (!value) {
+      this.unset("values");
+    } else {
+      this.set("values", Value.fromBigIntArray(<Array<BigInt>>value));
+    }
   }
 
   get blockNumber(): BigInt {
@@ -670,6 +720,15 @@ export class Transfer extends Entity {
 
   set timestamp(value: BigInt) {
     this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get isBatch(): boolean {
+    let value = this.get("isBatch");
+    return value!.toBoolean();
+  }
+
+  set isBatch(value: boolean) {
+    this.set("isBatch", Value.fromBoolean(value));
   }
 }
 

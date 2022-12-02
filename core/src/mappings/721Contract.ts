@@ -20,7 +20,6 @@ import {
   getOrCreateAccount,
   getOrCreateAccountBalance,
   getOrCreateTokenBalance,
-  // updateAccountBalanceDailySnapshot,
 } from "./account";
 import { CheckTransferType } from "./balance";
 import { TokenId } from "./ids";
@@ -117,6 +116,7 @@ export function handleTransfer(event: TransferEvent): void {
     // Meta changes
     token.amount = token.amount.plus(BIGINT_ONE);
     tokenNFTContract.tokenCount = tokenNFTContract.tokenCount.plus(BIGINT_ONE)
+    tokenNFTContract.ownerCount = tokenNFTContract.ownerCount.plus(BIGINT_ONE)
 
     // Balance changes 
     toTokenBalance.balance = toTokenBalance.balance.plus(BIGINT_ONE)
@@ -174,6 +174,8 @@ export function handleTransfer(event: TransferEvent): void {
     // TODO: check if need to remove
     store.remove("TokenBalance", fromTokenBalance.id);
     store.remove("Token", token.id)
+    tokenNFTContract.ownerCount = tokenNFTContract.ownerCount.minus(BIGINT_ONE)
+    tokenNFTContract.tokenCount = tokenNFTContract.tokenCount.minus(BIGINT_ONE)
 
     fromAccount.save()
     fromAccountBalance.save()
@@ -210,7 +212,6 @@ export function handleTransfer(event: TransferEvent): void {
 
     // Balance changes 
 
-    // fromTokenBalance.balance = fromTokenBalance.balance.minus(BIGINT_ONE)
     toTokenBalance.balance = toTokenBalance.balance.plus(BIGINT_ONE)
 
     // Account balance changes 
@@ -228,11 +229,7 @@ export function handleTransfer(event: TransferEvent): void {
     fromAccount.tokenCount = fromAccount.tokenCount.minus(BIGINT_ONE)
     toAccount.tokenCount = toAccount.tokenCount.plus(BIGINT_ONE)
     
-    // TODO: check if need to remove
     store.remove("TokenBalance", fromTokenBalance.id);
-
-    // updateAccountBalanceDailySnapshot(fromAccountBalance, event);
-    // updateAccountBalanceDailySnapshot(toAccountBalance, event);
 
     toAccount.save()
     toAccountBalance.save()
@@ -245,136 +242,6 @@ export function handleTransfer(event: TransferEvent): void {
   }
   tokenNFTContract.transferCount = tokenNFTContract.transferCount.plus(BIGINT_ONE)
   tokenNFTContract.save();
-   
-  // let dailySnapshot = getOrCreateNFTContractDailySnapshot(
-  //   tokenNFTContract,
-  //   event.block
-  // );
-  // dailySnapshot.dailyTransferCount += 1;
-  // dailySnapshot.save();
-
-
-  // // update metrics on the sender side
-  // let currentOwner = Account.load(from)
-  // if (from == GENESIS_ADDRESS) {
-  //   // mint a new token
-  //   tokenNFTContract.tokenCount = tokenNFTContract.tokenCount.plus(BIGINT_ONE);
-  // } else {
-  //   // transfer an existing token from non-zero address
-  //   let currentAccountBalanceId = from + "-" + nftContractId;
-  //   let currentAccountBalance = AccountBalance.load(currentAccountBalanceId);
-  //   if (currentAccountBalance != null) {
-  //     currentAccountBalance.tokenCount = currentAccountBalance.tokenCount.minus(
-  //       BIGINT_ONE
-  //     );
-  //     currentAccountBalance.blockNumber = event.block.number;
-  //     currentAccountBalance.timestamp = event.block.timestamp;
-  //     currentAccountBalance.save();
-
-  //     if (currentAccountBalance.tokenCount.equals(BIGINT_ZERO)) {
-  //       tokenNFTContract.ownerCount = tokenNFTContract.ownerCount.minus(
-  //         BIGINT_ONE
-  //       );
-  //     }
-
-
-  //     // provide information about evolution of account balances
-  //     updateAccountBalanceDailySnapshot(currentAccountBalance, event);
-  //   }
-
-  //   if (currentOwner != null) {
-  //     currentOwner.tokenCount = currentOwner.tokenCount.minus(BIGINT_ONE);
-  //     currentOwner.save();
-  //   }
-  // }
-
-  // // update metrics on the receiver side
-  // if (to == GENESIS_ADDRESS) {
-  //   // burn an existing token
-  //   store.remove("Token", id);
-  //   tokenNFTContract.tokenCount = tokenNFTContract.tokenCount.minus(BIGINT_ONE);
-  // } else {
-  //   // transfer a new or existing token to non-zero address
-  //   let newOwner = getOrCreateAccount(to);
-  //   newOwner.tokenCount = newOwner.tokenCount.plus(BIGINT_ONE);
-  //   newOwner.transferTo.push(transferEvent.id)
-  //   newOwner.save();
-
-  //   let token = getOrCreate721Token(
-  //     contract,
-  //     tokenNFTContract,
-  //     tokenId,
-  //     event.block.timestamp,
-  //     event.block.number
-  //   );
-  //   token.owners = [newOwner.id];
-  //   token.save();
-
-  //   let newAccountBalance = getOrCreateAccountBalance(to, nftContractId, event.block.number);
-  //   newAccountBalance.tokenCount = newAccountBalance.tokenCount.plus(
-  //     BIGINT_ONE
-  //   );
-  //   newAccountBalance.blockNumber = event.block.number;
-  //   newAccountBalance.timestamp = event.block.timestamp;
-  //   newAccountBalance.save();
-
-  //   if (newAccountBalance.tokenCount.equals(BIGINT_ONE)) {
-  //     tokenNFTContract.ownerCount = tokenNFTContract.ownerCount.plus(BIGINT_ONE);
-  //   }
-
-  //   // provide information about evolution of account balances
-  //   updateAccountBalanceDailySnapshot(newAccountBalance, event);
-  // }
-
-  // // update aggregate data for sender and receiver
-  // tokenNFTContract.transferCount = tokenNFTContract.transferCount.plus(
-  //   BIGINT_ONE
-  // );
-
-  // if (tokenNFTContract.supportsERC721Metadata) {
-  //   let existingToken = Token.load(tokenNFTContract.id + "-" + tokenId.toString());
-  //   if (existingToken == null) {
-  //     // Store metadata for the specific tokenId.
-  //     let currentToken = getOrCreate721Token(contract, tokenNFTContract, tokenId, event.block.timestamp, event.block.number);
-  //     let newOwner = getOrCreateAccount(to);
-  //     currentToken.owners = [newOwner.id];
-  //     currentToken.save();
-
-  //     tokenNFTContract.tokenCount = tokenNFTContract.tokenCount.plus(BIGINT_ONE);
-  //     tokenNFTContract.save();
-  //   } else {
-  //     // previousToken isn't null which means the metadata for the tokenId was stored before.
-  //     // So check whether the tokenURI has changed to decide whether the metadata need to be updated.
-  //     let metadataURI = contract.try_tokenURI(tokenId);
-  //     if (!metadataURI.reverted) {
-  //       let tokenURI = normalize(metadataURI.value);
-  //       if (tokenURI.length > 0 && tokenURI != existingToken.tokenURI) {
-  //         tokenNFTContract.tokenURIUpdated = true;
-  //         tokenNFTContract.save();
-
-  //         existingToken.tokenURI = tokenURI;
-  //         existingToken = updateTokenMetadata(event, existingToken);
-  //         existingToken.blockNumber = event.block.number;
-  //         existingToken.timestamp = event.block.timestamp;
-  //         existingToken.owners = [to];
-  //         existingToken.save();
-  //       }
-  //     }
-  //   }
-
-    
-  // }
-
-  // tokenNFTContract.save();
-
-  // let dailySnapshot = getOrCreateNFTContractDailySnapshot(
-  //   tokenNFTContract,
-  //   event.block
-  // );
-  // dailySnapshot.dailyTransferCount += 1;
-  // dailySnapshot.save();
-
-  // transferEvent.save();
 }
 
 function getOrCreateNFTContract(
@@ -408,31 +275,6 @@ function getOrCreateNFTContract(
   return tokenNFTContract;
 }
 
-// function getOrCreateNFTContractDailySnapshot(
-//   nftContract: NFTContract,
-//   block: ethereum.Block
-// ): NFTContractDailySnapshot {
-//   let snapshotId =
-//     nftContract.id +
-//     "-" +
-//     (block.timestamp.toI64() / SECONDS_PER_DAY).toString();
-//   let previousSnapshot = NFTContractDailySnapshot.load(snapshotId);
-
-//   if (previousSnapshot != null) {
-//     return previousSnapshot as NFTContractDailySnapshot;
-//   }
-
-//   let newSnapshot = new NFTContractDailySnapshot(snapshotId);
-//   newSnapshot.nftContract = nftContract.id;
-//   newSnapshot.tokenCount = nftContract.tokenCount;
-//   newSnapshot.ownerCount = nftContract.ownerCount;
-//   newSnapshot.dailyTransferCount = 0;
-//   newSnapshot.blockNumber = block.number;
-//   newSnapshot.timestamp = block.timestamp;
-
-//   return newSnapshot;
-// }
-
 function createTransfer(event: TransferEvent): Transfer {
   let transfer = new Transfer(
     event.address.toHex() +
@@ -451,6 +293,7 @@ function createTransfer(event: TransferEvent): Transfer {
   transfer.blockNumber = event.block.number;
   transfer.timestamp = event.block.timestamp;
   transfer.value = BIGINT_ONE;
+  transfer.isBatch = false;
 
   return transfer;
 }

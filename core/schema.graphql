@@ -132,40 +132,11 @@ type NFTContract @entity {
 
   " Token holder's balance "
   holdersBalance: [AccountBalance!]! @derivedFrom(field: "nftContract")
-
-  ##### Snapshots #####
-
-  # " Daily snapshot for this nftContract "
-  # dailyNftContractSnapshot: [NFTContractDailySnapshot!]!
-  #   @derivedFrom(field: "nftContract")
 }
 
 ###############################################
 ####### ERC721/1155 NFTContract Timeseries ######
 ###############################################
-
-# type NFTContractDailySnapshot @entity {
-#   " { nftContract address }-{ # of days since Unix epoch time } "
-#   id: ID!
-
-#   " NFTContract this snapshot is associated with "
-#   nftContract: NFTContract!
-
-#   " Total number of unique tokens in the nftContract for the specific day "
-#   tokenCount: BigInt!
-
-#   " Total number of unique token owners in the collection for the specific day "
-#   ownerCount: BigInt!
-
-#   " Total number of transfers in a day "
-#   dailyTransferCount: Int!
-
-#   " Block number of this snapshot "
-#   blockNumber: BigInt!
-
-#   " Timestamp of this snapshot "
-#   timestamp: BigInt!
-# }
 
 ###############################
 ##### Transfer Event Data #####
@@ -188,7 +159,10 @@ type Transfer @entity {
   nonce: Int!
 
   " ID of the token transferred "
-  tokenId: BigInt!
+  tokenId: BigInt
+
+  " Array ID of the token transferred "
+  tokenIds: [BigInt!]
 
   " Account that received the tokens "
   to: Account!
@@ -200,7 +174,10 @@ type Transfer @entity {
   operator: Account
 
   " Amount transfered "
-  value: BigInt!
+  value: BigInt
+
+  " Array of amount transfered "
+  values: [BigInt!]
 
   " Block number of this event "
   blockNumber: BigInt!
@@ -250,9 +227,6 @@ type Account @entity {
   " Token balances that this account holds "
   balances: [AccountBalance!]! @derivedFrom(field: "account")
 
-  # " Token balances snapshot that this account holds "
-  # balancesSnapshot: [AccountBalanceDailySnapshot!]!
-  #   @derivedFrom(field: "account")
 }
 
 type AccountBalance @entity {
@@ -281,55 +255,6 @@ type AccountBalance @entity {
 ###############################
 ###### Account Timeseries #####
 ###############################
-
-# type AccountBalanceDailySnapshot @entity {
-#   " { Address Of the Account }-{ Address of the Contract }-{ # of days since Unix epoch time } "
-#   id: ID!
-
-#   " Account address "
-#   account: Account!
-
-#   " NFTContract address "
-#   nftContract: NFTContract!
-
-#   " Current token amount for the nft contract "
-#   tokenCount: BigInt!
-
-#   " Token balances that this account holds "
-#   tokenBalances: [TokenBalance!]! @derivedFrom(field: "accountBalance")
-
-#   " Block number in which the balance was last modified "
-#   blockNumber: BigInt!
-
-#   " Timestamp in which the balance was last modified "
-#   timestamp: BigInt!
-# }
-
-
-# type TokenBalanceDailySnapshot @entity {
-#   " { Address Of the Account }-{ Address of the Contract }-{ Token ID }-{ # of days since Unix epoch time } "
-#   id: ID!
-
-#   " Account address "
-#   account: Account!
-
-#   " NFTContract address "
-#   nftContract: NFTContract!
-
-#   token: Token
-
-#   " Current token amount for the nft contract "
-#   tokenCount: BigInt!
-
-#   " Token balances that this account holds "
-#   tokenBalances: [TokenBalance!]! @derivedFrom(field: "accountBalance")
-
-#   " Block number in which the balance was last modified "
-#   blockNumber: BigInt!
-
-#   " Timestamp in which the balance was last modified "
-#   timestamp: BigInt!
-# }
 
 #####################################
 ####### Non ERC721/1155 NFTContracts ######

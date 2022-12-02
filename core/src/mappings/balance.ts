@@ -22,20 +22,3 @@ export function CheckTransferType(
 
   return transferType[2]
 }
-
-// export function ProcessMint(
-//   tokenNFTContract: NFTContract,
-
-//   tokenId: string
-// ) {
-//   // ge
-// }
-
-// export function ProcessBurn() {
-
-// }
-
-
-// export function ProcessTransfer() {
-  
-// }

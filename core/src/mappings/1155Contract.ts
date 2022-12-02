@@ -178,7 +178,6 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
 
     fromAccount.save()
     fromAccountBalance.save()
-    // updateAccountBalanceDailySnapshot(fromAccountBalance, event);
   } else {
     // Get From Account
     let fromAccount = getOrCreateAccount(from);
@@ -239,9 +238,6 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
       fromTokenBalance.save()
     }
  
-    // updateAccountBalanceDailySnapshot(fromAccountBalance, event);
-    // updateAccountBalanceDailySnapshot(toAccountBalance, event);
-
     toAccount.save()
     toAccountBalance.save()
     toTokenBalance.save()
@@ -253,14 +249,6 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
   token.save()
   tokenNFTContract.transferCount = tokenNFTContract.transferCount.plus(BIGINT_ONE)
   tokenNFTContract.save();
-  
-  // let dailySnapshot = getOrCreateNFTContractDailySnapshot(
-  //   tokenNFTContract,
-  //   event.block
-  // );
-  // dailySnapshot.dailyTransferCount += 1;
-  // dailySnapshot.save();
-
 }
 
 function getOrCreateNFTContract(
@@ -284,31 +272,6 @@ function getOrCreateNFTContract(
   return tokenNFTContract;
 }
 
-// function getOrCreateNFTContractDailySnapshot(
-//   nftContract: NFTContract,
-//   block: ethereum.Block
-// ): NFTContractDailySnapshot {
-//   let snapshotId =
-//     nftContract.id +
-//     "-" +
-//     (block.timestamp.toI64() / SECONDS_PER_DAY).toString();
-//   let previousSnapshot = NFTContractDailySnapshot.load(snapshotId);
-
-//   if (previousSnapshot != null) {
-//     return previousSnapshot as NFTContractDailySnapshot;
-//   }
-
-//   let newSnapshot = new NFTContractDailySnapshot(snapshotId);
-//   newSnapshot.nftContract = nftContract.id;
-//   newSnapshot.tokenCount = nftContract.tokenCount;
-//   newSnapshot.ownerCount = nftContract.ownerCount;
-//   newSnapshot.dailyTransferCount = 0;
-//   newSnapshot.blockNumber = block.number;
-//   newSnapshot.timestamp = block.timestamp;
-
-//   return newSnapshot;
-// }
-
 function createTransfer(event: TransferSingleEvent): Transfer {
   let transfer = new Transfer(
     event.address.toHex() +
@@ -328,20 +291,20 @@ function createTransfer(event: TransferSingleEvent): Transfer {
   transfer.operator = event.params.operator.toHex();
   transfer.blockNumber = event.block.number;
   transfer.timestamp = event.block.timestamp;
+  transfer.isBatch = false;
 
   return transfer;
 }
 
-function handleTransferBatch(event: TransferBatchEvent): void {
+export function handleTransferBatch(event: TransferBatchEvent): void {
   let from = event.params.from.toHex();
   let to = event.params.to.toHex();
   let values = event.params.values;
   let rawTokenIds = event.params.ids;
+  let transferEvent = createTransferFromBatch(event);
+  transferEvent.save();
 
   for(let i = 0; i < values.length; i++) {
-    let transferEvent = createTransferFromBatch(event, i);
-    transferEvent.save();
-  
     let transferType = CheckTransferType(
       to,
       from
@@ -442,8 +405,6 @@ function handleTransferBatch(event: TransferBatchEvent): void {
       toAccount.save()
       toAccountBalance.save()
       toTokenBalance.save()
-      // updateAccountBalanceDailySnapshot(toAccountBalance, event);
-  
     } else if (transferType == "burn") {
       // Get From Account
       let fromAccount = getOrCreateAccount(from);
@@ -476,8 +437,6 @@ function handleTransferBatch(event: TransferBatchEvent): void {
       fromAccount.tokenCount = fromAccount.tokenCount.minus(values[i])
       
       if (fromTokenBalance.balance.equals(BIGINT_ZERO)) {
-        // TODO: remove from Account & AccountBalance
-        // TODO: check if need to remove
         tokenNFTContract.ownerCount = tokenNFTContract.ownerCount.minus(BIGINT_ONE)
         store.remove("TokenBalance", fromTokenBalance.id);
       } else {
@@ -486,7 +445,6 @@ function handleTransferBatch(event: TransferBatchEvent): void {
   
       fromAccount.save()
       fromAccountBalance.save()
-      // updateAccountBalanceDailySnapshot(fromAccountBalance, event);
     } else {
       // Get From Account
       let fromAccount = getOrCreateAccount(from);
@@ -540,16 +498,12 @@ function handleTransferBatch(event: TransferBatchEvent): void {
       toAccount.tokenCount = toAccount.tokenCount.plus(values[i])
   
       if (fromTokenBalance.balance.equals(BIGINT_ZERO)) {
-        // TODO: check if need to remove
         store.remove("TokenBalance", fromTokenBalance.id);
         tokenNFTContract.ownerCount = tokenNFTContract.ownerCount.minus(BIGINT_ONE)
       } else {
         fromTokenBalance.save()
       }
    
-      // updateAccountBalanceDailySnapshot(fromAccountBalance, event);
-      // updateAccountBalanceDailySnapshot(toAccountBalance, event);
-  
       toAccount.save()
       toAccountBalance.save()
       toTokenBalance.save()
@@ -561,38 +515,30 @@ function handleTransferBatch(event: TransferBatchEvent): void {
     token.save()
     tokenNFTContract.transferCount = tokenNFTContract.transferCount.plus(BIGINT_ONE)
     tokenNFTContract.save();
-    
-    // let dailySnapshot = getOrCreateNFTContractDailySnapshot(
-    //   tokenNFTContract,
-    //   event.block
-    // );
-    // dailySnapshot.dailyTransferCount += 1;
-    // dailySnapshot.save();
   }
 }
 
-function createTransferFromBatch(event: TransferBatchEvent, index: number): Transfer {
+function createTransferFromBatch(event: TransferBatchEvent): Transfer {
   let transfer = new Transfer(
     event.address.toHex() +
       "-" +
       event.transaction.hash.toHex() +
       "-" +
-      event.logIndex.plus(BigInt.fromI32(index)).toString()
+      event.logIndex.toString()
   );
   transfer.hash = event.transaction.hash.toHex();
-  transfer.logIndex = event.logIndex.plus(BigInt.fromI32(index)).toI32();
+  transfer.logIndex = event.logIndex.toI32();
   transfer.nftContract = event.address.toHex();
   transfer.nonce = event.transaction.nonce.toI32();
-  transfer.tokenId = event.params.ids[index];
+  transfer.tokenIds = event.params.ids;
   transfer.from = event.params.from.toHex();
   transfer.to = event.params.to.toHex();
-  transfer.value = event.params.values[index];
+  transfer.values = event.params.values;
   transfer.operator = event.params.operator.toHex();
   transfer.blockNumber = event.block.number;
   transfer.timestamp = event.block.timestamp;
+  transfer.isBatch = true;
 
-  return transfer;
-  
   return transfer;
 }
 

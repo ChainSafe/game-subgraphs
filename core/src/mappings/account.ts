@@ -63,36 +63,3 @@ export function getOrCreateTokenBalance(
 
   return newBalance;
 }
-
-
-// export function updateAccountBalanceDailySnapshot(
-//   balance: AccountBalance,
-//   event: ethereum.Event
-// ): void {
-//   let snapshot = getOrCreateAccountBalanceDailySnapshot(balance, event.block);
-
-//   snapshot.tokenCount = balance.tokenCount;
-//   snapshot.blockNumber = event.block.number;
-//   snapshot.timestamp = event.block.timestamp;
-
-//   snapshot.save();
-// }
-
-// function getOrCreateAccountBalanceDailySnapshot(
-//   balance: AccountBalance,
-//   block: ethereum.Block
-// ): AccountBalanceDailySnapshot {
-//   let snapshotId = SnapshotId(balance, block)
-//   let previousSnapshot = AccountBalanceDailySnapshot.load(snapshotId);
-
-//   if (previousSnapshot != null) {
-//     return previousSnapshot as AccountBalanceDailySnapshot;
-//   }
-
-//   let newSnapshot = new AccountBalanceDailySnapshot(snapshotId);
-//   newSnapshot.account = balance.account;
-//   newSnapshot.nftContract = balance.nftContract;
-//   newSnapshot.tokenCount = balance.tokenCount;
-
-//   return newSnapshot;
-// }
