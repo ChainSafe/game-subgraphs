@@ -3,11 +3,10 @@ import { ethereum, BigInt } from "@graphprotocol/graph-ts";
 import {
   Account,
   AccountBalance,
-  AccountBalanceDailySnapshot,
   TokenBalance,
 } from "../../../generated/schema";
 import { BIGINT_ZERO } from "../common/constants";
-import { AccountBalanceId, SnapshotId, TokenBalanceId } from "./ids";
+import { AccountBalanceId, TokenBalanceId, TokenId } from "./ids";
 
 export function getOrCreateAccount(accountAddress: string): Account {
   let existingAccount = Account.load(accountAddress);
@@ -18,7 +17,6 @@ export function getOrCreateAccount(accountAddress: string): Account {
 
   let newAccount = new Account(accountAddress);
   newAccount.tokenCount = BIGINT_ZERO;
-  newAccount.balances = [];
 
   return newAccount;
 }
@@ -40,17 +38,16 @@ export function getOrCreateAccountBalance(
   newBalance.nftContract = nftContract;
   newBalance.tokenCount = BIGINT_ZERO;
   newBalance.blockNumber = blockNumber;
-  newBalance.tokenBalances = []
 
   return newBalance;
 }
 
 export function getOrCreateTokenBalance(
   account: string,
-  nftContract: string,
+  nftContractAddress: string,
   rawTokenId: string,
 ): TokenBalance {
-  let balanceId = TokenBalanceId(account, nftContract, rawTokenId);
+  let balanceId = TokenBalanceId(account, nftContractAddress, rawTokenId);
   let previousBalance = TokenBalance.load(balanceId);
 
   if (previousBalance != null) {
@@ -59,40 +56,43 @@ export function getOrCreateTokenBalance(
 
   let newBalance = new TokenBalance(balanceId);
   newBalance.id = balanceId;
+  newBalance.accountBalance = AccountBalanceId(account, nftContractAddress);
   newBalance.balance = BIGINT_ZERO;
+  newBalance.token = TokenId(nftContractAddress, rawTokenId);
+  newBalance.nftContract = nftContractAddress;
 
   return newBalance;
 }
 
 
-export function updateAccountBalanceDailySnapshot(
-  balance: AccountBalance,
-  event: ethereum.Event
-): void {
-  let snapshot = getOrCreateAccountBalanceDailySnapshot(balance, event.block);
+// export function updateAccountBalanceDailySnapshot(
+//   balance: AccountBalance,
+//   event: ethereum.Event
+// ): void {
+//   let snapshot = getOrCreateAccountBalanceDailySnapshot(balance, event.block);
 
-  snapshot.tokenCount = balance.tokenCount;
-  snapshot.blockNumber = event.block.number;
-  snapshot.timestamp = event.block.timestamp;
+//   snapshot.tokenCount = balance.tokenCount;
+//   snapshot.blockNumber = event.block.number;
+//   snapshot.timestamp = event.block.timestamp;
 
-  snapshot.save();
-}
+//   snapshot.save();
+// }
 
-function getOrCreateAccountBalanceDailySnapshot(
-  balance: AccountBalance,
-  block: ethereum.Block
-): AccountBalanceDailySnapshot {
-  let snapshotId = SnapshotId(balance, block)
-  let previousSnapshot = AccountBalanceDailySnapshot.load(snapshotId);
+// function getOrCreateAccountBalanceDailySnapshot(
+//   balance: AccountBalance,
+//   block: ethereum.Block
+// ): AccountBalanceDailySnapshot {
+//   let snapshotId = SnapshotId(balance, block)
+//   let previousSnapshot = AccountBalanceDailySnapshot.load(snapshotId);
 
-  if (previousSnapshot != null) {
-    return previousSnapshot as AccountBalanceDailySnapshot;
-  }
+//   if (previousSnapshot != null) {
+//     return previousSnapshot as AccountBalanceDailySnapshot;
+//   }
 
-  let newSnapshot = new AccountBalanceDailySnapshot(snapshotId);
-  newSnapshot.account = balance.account;
-  newSnapshot.nftContract = balance.nftContract;
-  newSnapshot.tokenCount = balance.tokenCount;
+//   let newSnapshot = new AccountBalanceDailySnapshot(snapshotId);
+//   newSnapshot.account = balance.account;
+//   newSnapshot.nftContract = balance.nftContract;
+//   newSnapshot.tokenCount = balance.tokenCount;
 
-  return newSnapshot;
-}
+//   return newSnapshot;
+// }

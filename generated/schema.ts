@@ -497,6 +497,15 @@ export class NFTContract extends Entity {
     this.set("transferCount", Value.fromBigInt(value));
   }
 
+  get test(): i32 {
+    let value = this.get("test");
+    return value!.toI32();
+  }
+
+  set test(value: i32) {
+    this.set("test", Value.fromI32(value));
+  }
+
   get tokens(): Array<string> {
     let value = this.get("tokens");
     return value!.toStringArray();
@@ -522,106 +531,6 @@ export class NFTContract extends Entity {
 
   set holdersBalance(value: Array<string>) {
     this.set("holdersBalance", Value.fromStringArray(value));
-  }
-
-  get dailyNftContractSnapshot(): Array<string> {
-    let value = this.get("dailyNftContractSnapshot");
-    return value!.toStringArray();
-  }
-
-  set dailyNftContractSnapshot(value: Array<string>) {
-    this.set("dailyNftContractSnapshot", Value.fromStringArray(value));
-  }
-}
-
-export class NFTContractDailySnapshot extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(
-      id != null,
-      "Cannot save NFTContractDailySnapshot entity without an ID"
-    );
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type NFTContractDailySnapshot must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("NFTContractDailySnapshot", id.toString(), this);
-    }
-  }
-
-  static load(id: string): NFTContractDailySnapshot | null {
-    return changetype<NFTContractDailySnapshot | null>(
-      store.get("NFTContractDailySnapshot", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get nftContract(): string {
-    let value = this.get("nftContract");
-    return value!.toString();
-  }
-
-  set nftContract(value: string) {
-    this.set("nftContract", Value.fromString(value));
-  }
-
-  get tokenCount(): BigInt {
-    let value = this.get("tokenCount");
-    return value!.toBigInt();
-  }
-
-  set tokenCount(value: BigInt) {
-    this.set("tokenCount", Value.fromBigInt(value));
-  }
-
-  get ownerCount(): BigInt {
-    let value = this.get("ownerCount");
-    return value!.toBigInt();
-  }
-
-  set ownerCount(value: BigInt) {
-    this.set("ownerCount", Value.fromBigInt(value));
-  }
-
-  get dailyTransferCount(): i32 {
-    let value = this.get("dailyTransferCount");
-    return value!.toI32();
-  }
-
-  set dailyTransferCount(value: i32) {
-    this.set("dailyTransferCount", Value.fromI32(value));
-  }
-
-  get blockNumber(): BigInt {
-    let value = this.get("blockNumber");
-    return value!.toBigInt();
-  }
-
-  set blockNumber(value: BigInt) {
-    this.set("blockNumber", Value.fromBigInt(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
   }
 }
 
@@ -803,6 +712,33 @@ export class TokenBalance extends Entity {
   set balance(value: BigInt) {
     this.set("balance", Value.fromBigInt(value));
   }
+
+  get token(): string {
+    let value = this.get("token");
+    return value!.toString();
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get nftContract(): string {
+    let value = this.get("nftContract");
+    return value!.toString();
+  }
+
+  set nftContract(value: string) {
+    this.set("nftContract", Value.fromString(value));
+  }
+
+  get accountBalance(): string {
+    let value = this.get("accountBalance");
+    return value!.toString();
+  }
+
+  set accountBalance(value: string) {
+    this.set("accountBalance", Value.fromString(value));
+  }
 }
 
 export class Account extends Entity {
@@ -845,15 +781,6 @@ export class Account extends Entity {
     this.set("tokenCount", Value.fromBigInt(value));
   }
 
-  get tokens(): Array<string> {
-    let value = this.get("tokens");
-    return value!.toStringArray();
-  }
-
-  set tokens(value: Array<string>) {
-    this.set("tokens", Value.fromStringArray(value));
-  }
-
   get transferTo(): Array<string> {
     let value = this.get("transferTo");
     return value!.toStringArray();
@@ -879,15 +806,6 @@ export class Account extends Entity {
 
   set balances(value: Array<string>) {
     this.set("balances", Value.fromStringArray(value));
-  }
-
-  get balancesSnapshot(): Array<string> {
-    let value = this.get("balancesSnapshot");
-    return value!.toStringArray();
-  }
-
-  set balancesSnapshot(value: Array<string>) {
-    this.set("balancesSnapshot", Value.fromStringArray(value));
   }
 }
 
@@ -974,97 +892,6 @@ export class AccountBalance extends Entity {
 
   set tokenBalances(value: Array<string>) {
     this.set("tokenBalances", Value.fromStringArray(value));
-  }
-}
-
-export class AccountBalanceDailySnapshot extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(
-      id != null,
-      "Cannot save AccountBalanceDailySnapshot entity without an ID"
-    );
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type AccountBalanceDailySnapshot must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("AccountBalanceDailySnapshot", id.toString(), this);
-    }
-  }
-
-  static load(id: string): AccountBalanceDailySnapshot | null {
-    return changetype<AccountBalanceDailySnapshot | null>(
-      store.get("AccountBalanceDailySnapshot", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get account(): string {
-    let value = this.get("account");
-    return value!.toString();
-  }
-
-  set account(value: string) {
-    this.set("account", Value.fromString(value));
-  }
-
-  get nftContract(): string {
-    let value = this.get("nftContract");
-    return value!.toString();
-  }
-
-  set nftContract(value: string) {
-    this.set("nftContract", Value.fromString(value));
-  }
-
-  get tokenCount(): BigInt {
-    let value = this.get("tokenCount");
-    return value!.toBigInt();
-  }
-
-  set tokenCount(value: BigInt) {
-    this.set("tokenCount", Value.fromBigInt(value));
-  }
-
-  get tokenBalances(): Array<string> {
-    let value = this.get("tokenBalances");
-    return value!.toStringArray();
-  }
-
-  set tokenBalances(value: Array<string>) {
-    this.set("tokenBalances", Value.fromStringArray(value));
-  }
-
-  get blockNumber(): BigInt {
-    let value = this.get("blockNumber");
-    return value!.toBigInt();
-  }
-
-  set blockNumber(value: BigInt) {
-    this.set("blockNumber", Value.fromBigInt(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
   }
 }
 
