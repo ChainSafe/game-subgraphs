@@ -497,15 +497,6 @@ export class NFTContract extends Entity {
     this.set("transferCount", Value.fromBigInt(value));
   }
 
-  get test(): i32 {
-    let value = this.get("test");
-    return value!.toI32();
-  }
-
-  set test(value: i32) {
-    this.set("test", Value.fromI32(value));
-  }
-
   get tokens(): Array<string> {
     let value = this.get("tokens");
     return value!.toStringArray();
@@ -763,6 +754,33 @@ export class TokenBalance extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get ownerAccount(): string {
+    let value = this.get("ownerAccount");
+    return value!.toString();
+  }
+
+  set ownerAccount(value: string) {
+    this.set("ownerAccount", Value.fromString(value));
+  }
+
+  get accountBalance(): string {
+    let value = this.get("accountBalance");
+    return value!.toString();
+  }
+
+  set accountBalance(value: string) {
+    this.set("accountBalance", Value.fromString(value));
+  }
+
+  get nftType(): string {
+    let value = this.get("nftType");
+    return value!.toString();
+  }
+
+  set nftType(value: string) {
+    this.set("nftType", Value.fromString(value));
+  }
+
   get balance(): BigInt {
     let value = this.get("balance");
     return value!.toBigInt();
@@ -788,15 +806,6 @@ export class TokenBalance extends Entity {
 
   set nftContract(value: string) {
     this.set("nftContract", Value.fromString(value));
-  }
-
-  get accountBalance(): string {
-    let value = this.get("accountBalance");
-    return value!.toString();
-  }
-
-  set accountBalance(value: string) {
-    this.set("accountBalance", Value.fromString(value));
   }
 }
 

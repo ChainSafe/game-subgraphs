@@ -46,6 +46,7 @@ export function getOrCreateTokenBalance(
   account: string,
   nftContractAddress: string,
   rawTokenId: string,
+  nftType: string
 ): TokenBalance {
   let balanceId = TokenBalanceId(account, nftContractAddress, rawTokenId);
   let previousBalance = TokenBalance.load(balanceId);
@@ -60,6 +61,8 @@ export function getOrCreateTokenBalance(
   newBalance.balance = BIGINT_ZERO;
   newBalance.token = TokenId(nftContractAddress, rawTokenId);
   newBalance.nftContract = nftContractAddress;
+  newBalance.nftType = nftType;
+  newBalance.ownerAccount = account;
 
   return newBalance;
 }

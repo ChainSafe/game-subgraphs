@@ -122,8 +122,6 @@ type NFTContract @entity {
   " Total number of token transfer events "
   transferCount: BigInt!
 
-  test: Int
-
   " Tokens in the nftContract "
   tokens: [Token!]! @derivedFrom(field: "nftContract")
 
@@ -197,7 +195,16 @@ type TokenBalance @entity {
   " { Address Of the Account }-{ Address of the NFTContract }-{ TokenId } "
   id: ID!
 
-  " Current balance of the account "
+  " { Address Of the Account } "
+  ownerAccount: Account! 
+
+  " Balance in whole contract of the account "
+  accountBalance: AccountBalance! 
+  
+  " Type of NFT contract"
+  nftType: String!
+
+  " Current balance this specific token "
   balance: BigInt!
 
   " Token the balance relates to "
@@ -205,9 +212,6 @@ type TokenBalance @entity {
 
   " Token the balance relates to "
   nftContract: NFTContract!
-
-  " Current balance of the account "
-  accountBalance: AccountBalance! 
 }
 
 # An account is a unique Ethereum address

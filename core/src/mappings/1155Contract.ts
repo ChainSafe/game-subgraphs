@@ -109,7 +109,8 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
     let toTokenBalance = getOrCreateTokenBalance(
       toAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "1155"
     )
     // Meta changes
     token.amount = token.amount.plus(value);
@@ -147,7 +148,8 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
     let fromTokenBalance = getOrCreateTokenBalance(
       fromAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "1155"
     )
 
     // Meta changes
@@ -189,7 +191,8 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
     let fromTokenBalance = getOrCreateTokenBalance(
       fromAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "1155"
     )
 
     // Get To Account 
@@ -202,7 +205,8 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
     let toTokenBalance = getOrCreateTokenBalance(
       toAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "1155"
     )
 
     // Meta changes
@@ -380,7 +384,8 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
       let toTokenBalance = getOrCreateTokenBalance(
         toAccount.id,
         nftContractAddress,
-        rawTokenIds[i].toString()
+        rawTokenIds[i].toString(),
+        "1155"
       )
       // Meta changes
       token.amount = token.amount.plus(values[i]);
@@ -416,7 +421,8 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
       let fromTokenBalance = getOrCreateTokenBalance(
         fromAccount.id,
         nftContractAddress,
-        rawTokenIds[i].toString()
+        rawTokenIds[i].toString(),
+        "1155"
       )
   
       // Meta changes
@@ -456,7 +462,8 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
       let fromTokenBalance = getOrCreateTokenBalance(
         fromAccount.id,
         nftContractAddress,
-        rawTokenIds[i].toString()
+        rawTokenIds[i].toString(),
+        "1155"
       )
   
       // Get To Account 
@@ -469,7 +476,8 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
       let toTokenBalance = getOrCreateTokenBalance(
         toAccount.id,
         nftContractAddress,
-        rawTokenIds[i].toString()
+        rawTokenIds[i].toString(),
+        "1155"
       )
   
       // Meta changes

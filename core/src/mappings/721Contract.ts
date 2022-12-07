@@ -111,7 +111,8 @@ export function handleTransfer(event: TransferEvent): void {
     let toTokenBalance = getOrCreateTokenBalance(
       toAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "721"
     )
     // Meta changes
     token.amount = token.amount.plus(BIGINT_ONE);
@@ -148,7 +149,8 @@ export function handleTransfer(event: TransferEvent): void {
     let fromTokenBalance = getOrCreateTokenBalance(
       fromAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "721"
     )
 
     // Meta changes
@@ -192,7 +194,8 @@ export function handleTransfer(event: TransferEvent): void {
     let fromTokenBalance = getOrCreateTokenBalance(
       fromAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "721"
     )
 
     // Get To Account 
@@ -205,7 +208,8 @@ export function handleTransfer(event: TransferEvent): void {
     let toTokenBalance = getOrCreateTokenBalance(
       toAccount.id,
       nftContractAddress,
-      rawTokenId.toString()
+      rawTokenId.toString(),
+      "721"
     )
 
     // Meta changes
