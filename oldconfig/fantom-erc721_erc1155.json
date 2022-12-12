@@ -1,7 +1,0 @@
-{
-  "output": "generated/fantom-erc721_erc1155.",
-  "chain": "fantom",
-  "datasources": [
-    { "module": ["erc721", "erc1155"] }
-  ]
-}

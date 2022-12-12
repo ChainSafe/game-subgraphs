@@ -1,7 +1,0 @@
-{
-  "output": "generated/celo-erc721_erc1155.",
-  "chain": "celo",
-  "datasources": [
-    { "module": ["erc721", "erc1155"] }
-  ]
-}
