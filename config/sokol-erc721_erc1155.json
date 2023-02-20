@@ -1,7 +1,0 @@
-{
-  "output": "generated/sokol-erc721_erc1155.",
-  "chain": "poa-sokol",
-  "datasources": [
-    { "module": ["erc721", "erc1155"] }
-  ]
-}

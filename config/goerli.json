@@ -1,0 +1,6 @@
+{
+  "output": "generated/goerli-erc721_erc1155.",
+  "chain": "goerli",
+  "datasources": [
+  ]
+}

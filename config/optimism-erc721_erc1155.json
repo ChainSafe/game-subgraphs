@@ -1,7 +1,0 @@
-{
-  "output": "generated/optimism-erc721_erc1155.",
-  "chain": "optimism",
-  "datasources": [
-    { "module": ["erc721", "erc1155"] }
-  ]
-}

@@ -1,0 +1,61 @@
+specVersion: 0.0.4
+features:
+  - nonFatalErrors
+  - fullTextSearch
+  - ipfsOnEthereumContracts
+description: ERC721 Metadata
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ERC721
+    network: avalanche
+    source:
+      abi: ERC721
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - Attribute
+        - NFTContract
+        - Transfer
+        - Account
+        - AccountBalance
+        - TokenBalance
+        - NonNFTContract
+      abis:
+        - name: ERC721
+          file: ./abis/ERC721.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/721Contract.ts
+  - kind: ethereum/contract
+    name: ERC1155
+    network: avalanche
+    source:
+      abi: ERC1155
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - Attribute
+        - NFTContract
+        - Transfer
+        - Account
+        - AccountBalance
+        - TokenBalance
+        - NonNFTContract
+      abis:
+        - name: ERC1155
+          file: ./abis/ERC1155.json
+      eventHandlers:
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+      file: ./src/mappings/1155Contract.ts

@@ -6,13 +6,12 @@ import {
   Value,
   ValueKind,
   store,
-  Address,
   Bytes,
   BigInt,
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Account extends Entity {
+export class Token extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,19 +19,18 @@ export class Account extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Account entity without an ID");
+    assert(id != null, "Cannot save Token entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Account entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type Token must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Account", id.toString(), this);
+      store.set("Token", id.toString(), this);
     }
   }
 
-  static load(id: string): Account | null {
-    return changetype<Account | null>(store.get("Account", id));
+  static load(id: string): Token | null {
+    return changetype<Token | null>(store.get("Token", id));
   }
 
   get id(): string {
@@ -44,8 +42,26 @@ export class Account extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get asERC721(): string | null {
-    let value = this.get("asERC721");
+  get nftContract(): string {
+    let value = this.get("nftContract");
+    return value!.toString();
+  }
+
+  set nftContract(value: string) {
+    this.set("nftContract", Value.fromString(value));
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get tokenURI(): string | null {
+    let value = this.get("tokenURI");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -53,61 +69,34 @@ export class Account extends Entity {
     }
   }
 
-  set asERC721(value: string | null) {
+  set tokenURI(value: string | null) {
     if (!value) {
-      this.unset("asERC721");
+      this.unset("tokenURI");
     } else {
-      this.set("asERC721", Value.fromString(<string>value));
+      this.set("tokenURI", Value.fromString(<string>value));
     }
   }
 
-  get ERC721tokens(): Array<string> {
-    let value = this.get("ERC721tokens");
+  get owners(): Array<string> {
+    let value = this.get("owners");
     return value!.toStringArray();
   }
 
-  set ERC721tokens(value: Array<string>) {
-    this.set("ERC721tokens", Value.fromStringArray(value));
+  set owners(value: Array<string>) {
+    this.set("owners", Value.fromStringArray(value));
   }
 
-  get ERC721operatorOwner(): Array<string> {
-    let value = this.get("ERC721operatorOwner");
-    return value!.toStringArray();
+  get mintTime(): BigInt {
+    let value = this.get("mintTime");
+    return value!.toBigInt();
   }
 
-  set ERC721operatorOwner(value: Array<string>) {
-    this.set("ERC721operatorOwner", Value.fromStringArray(value));
+  set mintTime(value: BigInt) {
+    this.set("mintTime", Value.fromBigInt(value));
   }
 
-  get ERC721operatorOperator(): Array<string> {
-    let value = this.get("ERC721operatorOperator");
-    return value!.toStringArray();
-  }
-
-  set ERC721operatorOperator(value: Array<string>) {
-    this.set("ERC721operatorOperator", Value.fromStringArray(value));
-  }
-
-  get ERC721transferFromEvent(): Array<string> {
-    let value = this.get("ERC721transferFromEvent");
-    return value!.toStringArray();
-  }
-
-  set ERC721transferFromEvent(value: Array<string>) {
-    this.set("ERC721transferFromEvent", Value.fromStringArray(value));
-  }
-
-  get ERC721transferToEvent(): Array<string> {
-    let value = this.get("ERC721transferToEvent");
-    return value!.toStringArray();
-  }
-
-  set ERC721transferToEvent(value: Array<string>) {
-    this.set("ERC721transferToEvent", Value.fromStringArray(value));
-  }
-
-  get asERC1155(): string | null {
-    let value = this.get("asERC1155");
+  get description(): string | null {
+    let value = this.get("description");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -115,93 +104,181 @@ export class Account extends Entity {
     }
   }
 
-  set asERC1155(value: string | null) {
+  set description(value: string | null) {
     if (!value) {
-      this.unset("asERC1155");
+      this.unset("description");
     } else {
-      this.set("asERC1155", Value.fromString(<string>value));
+      this.set("description", Value.fromString(<string>value));
     }
   }
 
-  get ERC1155balances(): Array<string> {
-    let value = this.get("ERC1155balances");
-    return value!.toStringArray();
+  get externalURI(): string | null {
+    let value = this.get("externalURI");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set ERC1155balances(value: Array<string>) {
-    this.set("ERC1155balances", Value.fromStringArray(value));
+  set externalURI(value: string | null) {
+    if (!value) {
+      this.unset("externalURI");
+    } else {
+      this.set("externalURI", Value.fromString(<string>value));
+    }
   }
 
-  get ERC1155operatorOwner(): Array<string> {
-    let value = this.get("ERC1155operatorOwner");
-    return value!.toStringArray();
+  get imageURI(): string | null {
+    let value = this.get("imageURI");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set ERC1155operatorOwner(value: Array<string>) {
-    this.set("ERC1155operatorOwner", Value.fromStringArray(value));
+  set imageURI(value: string | null) {
+    if (!value) {
+      this.unset("imageURI");
+    } else {
+      this.set("imageURI", Value.fromString(<string>value));
+    }
   }
 
-  get ERC1155operatorOperator(): Array<string> {
-    let value = this.get("ERC1155operatorOperator");
-    return value!.toStringArray();
+  get name(): string | null {
+    let value = this.get("name");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set ERC1155operatorOperator(value: Array<string>) {
-    this.set("ERC1155operatorOperator", Value.fromStringArray(value));
+  set name(value: string | null) {
+    if (!value) {
+      this.unset("name");
+    } else {
+      this.set("name", Value.fromString(<string>value));
+    }
   }
 
-  get ERC1155transferFromEvent(): Array<string> {
-    let value = this.get("ERC1155transferFromEvent");
-    return value!.toStringArray();
+  get attributes(): Array<string> | null {
+    let value = this.get("attributes");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
   }
 
-  set ERC1155transferFromEvent(value: Array<string>) {
-    this.set("ERC1155transferFromEvent", Value.fromStringArray(value));
+  set attributes(value: Array<string> | null) {
+    if (!value) {
+      this.unset("attributes");
+    } else {
+      this.set("attributes", Value.fromStringArray(<Array<string>>value));
+    }
   }
 
-  get ERC1155transferToEvent(): Array<string> {
-    let value = this.get("ERC1155transferToEvent");
-    return value!.toStringArray();
+  get backgroundColor(): string | null {
+    let value = this.get("backgroundColor");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set ERC1155transferToEvent(value: Array<string>) {
-    this.set("ERC1155transferToEvent", Value.fromStringArray(value));
+  set backgroundColor(value: string | null) {
+    if (!value) {
+      this.unset("backgroundColor");
+    } else {
+      this.set("backgroundColor", Value.fromString(<string>value));
+    }
   }
 
-  get ERC1155transferOperatorEvent(): Array<string> {
-    let value = this.get("ERC1155transferOperatorEvent");
-    return value!.toStringArray();
+  get animationURI(): string | null {
+    let value = this.get("animationURI");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set ERC1155transferOperatorEvent(value: Array<string>) {
-    this.set("ERC1155transferOperatorEvent", Value.fromStringArray(value));
+  set animationURI(value: string | null) {
+    if (!value) {
+      this.unset("animationURI");
+    } else {
+      this.set("animationURI", Value.fromString(<string>value));
+    }
+  }
+
+  get youtubeURI(): string | null {
+    let value = this.get("youtubeURI");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set youtubeURI(value: string | null) {
+    if (!value) {
+      this.unset("youtubeURI");
+    } else {
+      this.set("youtubeURI", Value.fromString(<string>value));
+    }
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value!.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 }
 
-export class ERC721Contract extends Entity {
+export class Attribute extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("asAccount", Value.fromString(""));
-    this.set("supportsMetadata", Value.fromBoolean(false));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ERC721Contract entity without an ID");
+    assert(id != null, "Cannot save Attribute entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save ERC721Contract entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type Attribute must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ERC721Contract", id.toString(), this);
+      store.set("Attribute", id.toString(), this);
     }
   }
 
-  static load(id: string): ERC721Contract | null {
-    return changetype<ERC721Contract | null>(store.get("ERC721Contract", id));
+  static load(id: string): Attribute | null {
+    return changetype<Attribute | null>(store.get("Attribute", id));
   }
 
   get id(): string {
@@ -213,22 +290,123 @@ export class ERC721Contract extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get asAccount(): string {
-    let value = this.get("asAccount");
+  get nftContract(): string {
+    let value = this.get("nftContract");
     return value!.toString();
   }
 
-  set asAccount(value: string) {
-    this.set("asAccount", Value.fromString(value));
+  set nftContract(value: string) {
+    this.set("nftContract", Value.fromString(value));
   }
 
-  get supportsMetadata(): boolean {
-    let value = this.get("supportsMetadata");
-    return value!.toBoolean();
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
   }
 
-  set supportsMetadata(value: boolean) {
-    this.set("supportsMetadata", Value.fromBoolean(value));
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    return value!.toString();
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get traitType(): string {
+    let value = this.get("traitType");
+    return value!.toString();
+  }
+
+  set traitType(value: string) {
+    this.set("traitType", Value.fromString(value));
+  }
+
+  get value(): string | null {
+    let value = this.get("value");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set value(value: string | null) {
+    if (!value) {
+      this.unset("value");
+    } else {
+      this.set("value", Value.fromString(<string>value));
+    }
+  }
+
+  get maxValue(): string | null {
+    let value = this.get("maxValue");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set maxValue(value: string | null) {
+    if (!value) {
+      this.unset("maxValue");
+    } else {
+      this.set("maxValue", Value.fromString(<string>value));
+    }
+  }
+
+  get displayType(): string | null {
+    let value = this.get("displayType");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set displayType(value: string | null) {
+    if (!value) {
+      this.unset("displayType");
+    } else {
+      this.set("displayType", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class NFTContract extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save NFTContract entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type NFTContract must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("NFTContract", id.toString(), this);
+    }
+  }
+
+  static load(id: string): NFTContract | null {
+    return changetype<NFTContract | null>(store.get("NFTContract", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get name(): string | null {
@@ -265,6 +443,60 @@ export class ERC721Contract extends Entity {
     }
   }
 
+  get nftType(): string {
+    let value = this.get("nftType");
+    return value!.toString();
+  }
+
+  set nftType(value: string) {
+    this.set("nftType", Value.fromString(value));
+  }
+
+  get supportsERC721Metadata(): boolean {
+    let value = this.get("supportsERC721Metadata");
+    return value!.toBoolean();
+  }
+
+  set supportsERC721Metadata(value: boolean) {
+    this.set("supportsERC721Metadata", Value.fromBoolean(value));
+  }
+
+  get tokenURIUpdated(): boolean {
+    let value = this.get("tokenURIUpdated");
+    return value!.toBoolean();
+  }
+
+  set tokenURIUpdated(value: boolean) {
+    this.set("tokenURIUpdated", Value.fromBoolean(value));
+  }
+
+  get tokenCount(): BigInt {
+    let value = this.get("tokenCount");
+    return value!.toBigInt();
+  }
+
+  set tokenCount(value: BigInt) {
+    this.set("tokenCount", Value.fromBigInt(value));
+  }
+
+  get ownerCount(): BigInt {
+    let value = this.get("ownerCount");
+    return value!.toBigInt();
+  }
+
+  set ownerCount(value: BigInt) {
+    this.set("ownerCount", Value.fromBigInt(value));
+  }
+
+  get transferCount(): BigInt {
+    let value = this.get("transferCount");
+    return value!.toBigInt();
+  }
+
+  set transferCount(value: BigInt) {
+    this.set("transferCount", Value.fromBigInt(value));
+  }
+
   get tokens(): Array<string> {
     let value = this.get("tokens");
     return value!.toStringArray();
@@ -274,15 +506,6 @@ export class ERC721Contract extends Entity {
     this.set("tokens", Value.fromStringArray(value));
   }
 
-  get operators(): Array<string> {
-    let value = this.get("operators");
-    return value!.toStringArray();
-  }
-
-  set operators(value: Array<string>) {
-    this.set("operators", Value.fromStringArray(value));
-  }
-
   get transfers(): Array<string> {
     let value = this.get("transfers");
     return value!.toStringArray();
@@ -291,34 +514,37 @@ export class ERC721Contract extends Entity {
   set transfers(value: Array<string>) {
     this.set("transfers", Value.fromStringArray(value));
   }
+
+  get holdersBalance(): Array<string> {
+    let value = this.get("holdersBalance");
+    return value!.toStringArray();
+  }
+
+  set holdersBalance(value: Array<string>) {
+    this.set("holdersBalance", Value.fromStringArray(value));
+  }
 }
 
-export class ERC721Token extends Entity {
+export class Transfer extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
-
-    this.set("contract", Value.fromString(""));
-    this.set("identifier", Value.fromBigInt(BigInt.zero()));
-    this.set("owner", Value.fromString(""));
-    this.set("approval", Value.fromString(""));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ERC721Token entity without an ID");
+    assert(id != null, "Cannot save Transfer entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save ERC721Token entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
+        `Entities of type Transfer must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ERC721Token", id.toString(), this);
+      store.set("Transfer", id.toString(), this);
     }
   }
 
-  static load(id: string): ERC721Token | null {
-    return changetype<ERC721Token | null>(store.get("ERC721Token", id));
+  static load(id: string): Transfer | null {
+    return changetype<Transfer | null>(store.get("Transfer", id));
   }
 
   get id(): string {
@@ -330,216 +556,83 @@ export class ERC721Token extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get contract(): string {
-    let value = this.get("contract");
+  get hash(): string {
+    let value = this.get("hash");
     return value!.toString();
   }
 
-  set contract(value: string) {
-    this.set("contract", Value.fromString(value));
+  set hash(value: string) {
+    this.set("hash", Value.fromString(value));
   }
 
-  get identifier(): BigInt {
-    let value = this.get("identifier");
-    return value!.toBigInt();
+  get logIndex(): i32 {
+    let value = this.get("logIndex");
+    return value!.toI32();
   }
 
-  set identifier(value: BigInt) {
-    this.set("identifier", Value.fromBigInt(value));
+  set logIndex(value: i32) {
+    this.set("logIndex", Value.fromI32(value));
   }
 
-  get owner(): string {
-    let value = this.get("owner");
+  get nftContract(): string {
+    let value = this.get("nftContract");
     return value!.toString();
   }
 
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
+  set nftContract(value: string) {
+    this.set("nftContract", Value.fromString(value));
   }
 
-  get approval(): string {
-    let value = this.get("approval");
-    return value!.toString();
+  get nonce(): i32 {
+    let value = this.get("nonce");
+    return value!.toI32();
   }
 
-  set approval(value: string) {
-    this.set("approval", Value.fromString(value));
+  set nonce(value: i32) {
+    this.set("nonce", Value.fromI32(value));
   }
 
-  get uri(): string | null {
-    let value = this.get("uri");
+  get tokenId(): BigInt | null {
+    let value = this.get("tokenId");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toString();
+      return value.toBigInt();
     }
   }
 
-  set uri(value: string | null) {
+  set tokenId(value: BigInt | null) {
     if (!value) {
-      this.unset("uri");
+      this.unset("tokenId");
     } else {
-      this.set("uri", Value.fromString(<string>value));
+      this.set("tokenId", Value.fromBigInt(<BigInt>value));
     }
   }
 
-  get transfers(): Array<string> {
-    let value = this.get("transfers");
-    return value!.toStringArray();
-  }
-
-  set transfers(value: Array<string>) {
-    this.set("transfers", Value.fromStringArray(value));
-  }
-}
-
-export class ERC721Operator extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("contract", Value.fromString(""));
-    this.set("owner", Value.fromString(""));
-    this.set("operator", Value.fromString(""));
-    this.set("approved", Value.fromBoolean(false));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ERC721Operator entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save ERC721Operator entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("ERC721Operator", id.toString(), this);
+  get tokenIds(): Array<BigInt> | null {
+    let value = this.get("tokenIds");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigIntArray();
     }
   }
 
-  static load(id: string): ERC721Operator | null {
-    return changetype<ERC721Operator | null>(store.get("ERC721Operator", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get contract(): string {
-    let value = this.get("contract");
-    return value!.toString();
-  }
-
-  set contract(value: string) {
-    this.set("contract", Value.fromString(value));
-  }
-
-  get owner(): string {
-    let value = this.get("owner");
-    return value!.toString();
-  }
-
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
-  }
-
-  get operator(): string {
-    let value = this.get("operator");
-    return value!.toString();
-  }
-
-  set operator(value: string) {
-    this.set("operator", Value.fromString(value));
-  }
-
-  get approved(): boolean {
-    let value = this.get("approved");
-    return value!.toBoolean();
-  }
-
-  set approved(value: boolean) {
-    this.set("approved", Value.fromBoolean(value));
-  }
-}
-
-export class ERC721Transfer extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("transaction", Value.fromString(""));
-    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("contract", Value.fromString(""));
-    this.set("token", Value.fromString(""));
-    this.set("from", Value.fromString(""));
-    this.set("to", Value.fromString(""));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ERC721Transfer entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save ERC721Transfer entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("ERC721Transfer", id.toString(), this);
+  set tokenIds(value: Array<BigInt> | null) {
+    if (!value) {
+      this.unset("tokenIds");
+    } else {
+      this.set("tokenIds", Value.fromBigIntArray(<Array<BigInt>>value));
     }
   }
 
-  static load(id: string): ERC721Transfer | null {
-    return changetype<ERC721Transfer | null>(store.get("ERC721Transfer", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
+  get to(): string {
+    let value = this.get("to");
     return value!.toString();
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get transaction(): string {
-    let value = this.get("transaction");
-    return value!.toString();
-  }
-
-  set transaction(value: string) {
-    this.set("transaction", Value.fromString(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get contract(): string {
-    let value = this.get("contract");
-    return value!.toString();
-  }
-
-  set contract(value: string) {
-    this.set("contract", Value.fromString(value));
-  }
-
-  get token(): string {
-    let value = this.get("token");
-    return value!.toString();
-  }
-
-  set token(value: string) {
-    this.set("token", Value.fromString(value));
+  set to(value: string) {
+    this.set("to", Value.fromString(value));
   }
 
   get from(): string {
@@ -551,465 +644,8 @@ export class ERC721Transfer extends Entity {
     this.set("from", Value.fromString(value));
   }
 
-  get to(): string {
-    let value = this.get("to");
-    return value!.toString();
-  }
-
-  set to(value: string) {
-    this.set("to", Value.fromString(value));
-  }
-}
-
-export class ERC1155Contract extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("asAccount", Value.fromString(""));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ERC1155Contract entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save ERC1155Contract entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("ERC1155Contract", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ERC1155Contract | null {
-    return changetype<ERC1155Contract | null>(store.get("ERC1155Contract", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get asAccount(): string {
-    let value = this.get("asAccount");
-    return value!.toString();
-  }
-
-  set asAccount(value: string) {
-    this.set("asAccount", Value.fromString(value));
-  }
-
-  get tokens(): Array<string> {
-    let value = this.get("tokens");
-    return value!.toStringArray();
-  }
-
-  set tokens(value: Array<string>) {
-    this.set("tokens", Value.fromStringArray(value));
-  }
-
-  get balances(): Array<string> {
-    let value = this.get("balances");
-    return value!.toStringArray();
-  }
-
-  set balances(value: Array<string>) {
-    this.set("balances", Value.fromStringArray(value));
-  }
-
-  get operators(): Array<string> {
-    let value = this.get("operators");
-    return value!.toStringArray();
-  }
-
-  set operators(value: Array<string>) {
-    this.set("operators", Value.fromStringArray(value));
-  }
-
-  get transfers(): Array<string> {
-    let value = this.get("transfers");
-    return value!.toStringArray();
-  }
-
-  set transfers(value: Array<string>) {
-    this.set("transfers", Value.fromStringArray(value));
-  }
-}
-
-export class ERC1155Token extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("contract", Value.fromString(""));
-    this.set("identifier", Value.fromBigInt(BigInt.zero()));
-    this.set("totalSupply", Value.fromString(""));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ERC1155Token entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save ERC1155Token entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("ERC1155Token", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ERC1155Token | null {
-    return changetype<ERC1155Token | null>(store.get("ERC1155Token", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get contract(): string {
-    let value = this.get("contract");
-    return value!.toString();
-  }
-
-  set contract(value: string) {
-    this.set("contract", Value.fromString(value));
-  }
-
-  get identifier(): BigInt {
-    let value = this.get("identifier");
-    return value!.toBigInt();
-  }
-
-  set identifier(value: BigInt) {
-    this.set("identifier", Value.fromBigInt(value));
-  }
-
-  get uri(): string | null {
-    let value = this.get("uri");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set uri(value: string | null) {
-    if (!value) {
-      this.unset("uri");
-    } else {
-      this.set("uri", Value.fromString(<string>value));
-    }
-  }
-
-  get totalSupply(): string {
-    let value = this.get("totalSupply");
-    return value!.toString();
-  }
-
-  set totalSupply(value: string) {
-    this.set("totalSupply", Value.fromString(value));
-  }
-
-  get balances(): Array<string> {
-    let value = this.get("balances");
-    return value!.toStringArray();
-  }
-
-  set balances(value: Array<string>) {
-    this.set("balances", Value.fromStringArray(value));
-  }
-
-  get transfers(): Array<string> {
-    let value = this.get("transfers");
-    return value!.toStringArray();
-  }
-
-  set transfers(value: Array<string>) {
-    this.set("transfers", Value.fromStringArray(value));
-  }
-}
-
-export class ERC1155Balance extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("contract", Value.fromString(""));
-    this.set("token", Value.fromString(""));
-    this.set("value", Value.fromBigDecimal(BigDecimal.zero()));
-    this.set("valueExact", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ERC1155Balance entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save ERC1155Balance entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("ERC1155Balance", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ERC1155Balance | null {
-    return changetype<ERC1155Balance | null>(store.get("ERC1155Balance", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get contract(): string {
-    let value = this.get("contract");
-    return value!.toString();
-  }
-
-  set contract(value: string) {
-    this.set("contract", Value.fromString(value));
-  }
-
-  get token(): string {
-    let value = this.get("token");
-    return value!.toString();
-  }
-
-  set token(value: string) {
-    this.set("token", Value.fromString(value));
-  }
-
-  get account(): string | null {
-    let value = this.get("account");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set account(value: string | null) {
-    if (!value) {
-      this.unset("account");
-    } else {
-      this.set("account", Value.fromString(<string>value));
-    }
-  }
-
-  get value(): BigDecimal {
-    let value = this.get("value");
-    return value!.toBigDecimal();
-  }
-
-  set value(value: BigDecimal) {
-    this.set("value", Value.fromBigDecimal(value));
-  }
-
-  get valueExact(): BigInt {
-    let value = this.get("valueExact");
-    return value!.toBigInt();
-  }
-
-  set valueExact(value: BigInt) {
-    this.set("valueExact", Value.fromBigInt(value));
-  }
-
-  get transferFromEvent(): Array<string> {
-    let value = this.get("transferFromEvent");
-    return value!.toStringArray();
-  }
-
-  set transferFromEvent(value: Array<string>) {
-    this.set("transferFromEvent", Value.fromStringArray(value));
-  }
-
-  get transferToEvent(): Array<string> {
-    let value = this.get("transferToEvent");
-    return value!.toStringArray();
-  }
-
-  set transferToEvent(value: Array<string>) {
-    this.set("transferToEvent", Value.fromStringArray(value));
-  }
-}
-
-export class ERC1155Operator extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("contract", Value.fromString(""));
-    this.set("owner", Value.fromString(""));
-    this.set("operator", Value.fromString(""));
-    this.set("approved", Value.fromBoolean(false));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ERC1155Operator entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save ERC1155Operator entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("ERC1155Operator", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ERC1155Operator | null {
-    return changetype<ERC1155Operator | null>(store.get("ERC1155Operator", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get contract(): string {
-    let value = this.get("contract");
-    return value!.toString();
-  }
-
-  set contract(value: string) {
-    this.set("contract", Value.fromString(value));
-  }
-
-  get owner(): string {
-    let value = this.get("owner");
-    return value!.toString();
-  }
-
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
-  }
-
-  get operator(): string {
+  get operator(): string | null {
     let value = this.get("operator");
-    return value!.toString();
-  }
-
-  set operator(value: string) {
-    this.set("operator", Value.fromString(value));
-  }
-
-  get approved(): boolean {
-    let value = this.get("approved");
-    return value!.toBoolean();
-  }
-
-  set approved(value: boolean) {
-    this.set("approved", Value.fromBoolean(value));
-  }
-}
-
-export class ERC1155Transfer extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("transaction", Value.fromString(""));
-    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("contract", Value.fromString(""));
-    this.set("token", Value.fromString(""));
-    this.set("operator", Value.fromString(""));
-    this.set("value", Value.fromBigDecimal(BigDecimal.zero()));
-    this.set("valueExact", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ERC1155Transfer entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save ERC1155Transfer entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("ERC1155Transfer", id.toString(), this);
-    }
-  }
-
-  static load(id: string): ERC1155Transfer | null {
-    return changetype<ERC1155Transfer | null>(store.get("ERC1155Transfer", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get transaction(): string {
-    let value = this.get("transaction");
-    return value!.toString();
-  }
-
-  set transaction(value: string) {
-    this.set("transaction", Value.fromString(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
-  }
-
-  get contract(): string {
-    let value = this.get("contract");
-    return value!.toString();
-  }
-
-  set contract(value: string) {
-    this.set("contract", Value.fromString(value));
-  }
-
-  get token(): string {
-    let value = this.get("token");
-    return value!.toString();
-  }
-
-  set token(value: string) {
-    this.set("token", Value.fromString(value));
-  }
-
-  get operator(): string {
-    let value = this.get("operator");
-    return value!.toString();
-  }
-
-  set operator(value: string) {
-    this.set("operator", Value.fromString(value));
-  }
-
-  get from(): string | null {
-    let value = this.get("from");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -1017,126 +653,46 @@ export class ERC1155Transfer extends Entity {
     }
   }
 
-  set from(value: string | null) {
+  set operator(value: string | null) {
     if (!value) {
-      this.unset("from");
+      this.unset("operator");
     } else {
-      this.set("from", Value.fromString(<string>value));
+      this.set("operator", Value.fromString(<string>value));
     }
   }
 
-  get fromBalance(): string | null {
-    let value = this.get("fromBalance");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set fromBalance(value: string | null) {
-    if (!value) {
-      this.unset("fromBalance");
-    } else {
-      this.set("fromBalance", Value.fromString(<string>value));
-    }
-  }
-
-  get to(): string | null {
-    let value = this.get("to");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set to(value: string | null) {
-    if (!value) {
-      this.unset("to");
-    } else {
-      this.set("to", Value.fromString(<string>value));
-    }
-  }
-
-  get toBalance(): string | null {
-    let value = this.get("toBalance");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set toBalance(value: string | null) {
-    if (!value) {
-      this.unset("toBalance");
-    } else {
-      this.set("toBalance", Value.fromString(<string>value));
-    }
-  }
-
-  get value(): BigDecimal {
+  get value(): BigInt | null {
     let value = this.get("value");
-    return value!.toBigDecimal();
-  }
-
-  set value(value: BigDecimal) {
-    this.set("value", Value.fromBigDecimal(value));
-  }
-
-  get valueExact(): BigInt {
-    let value = this.get("valueExact");
-    return value!.toBigInt();
-  }
-
-  set valueExact(value: BigInt) {
-    this.set("valueExact", Value.fromBigInt(value));
-  }
-}
-
-export class Transaction extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("timestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("blockNumber", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Transaction entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save Transaction entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("Transaction", id.toString(), this);
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
     }
   }
 
-  static load(id: string): Transaction | null {
-    return changetype<Transaction | null>(store.get("Transaction", id));
+  set value(value: BigInt | null) {
+    if (!value) {
+      this.unset("value");
+    } else {
+      this.set("value", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
+  get values(): Array<BigInt> | null {
+    let value = this.get("values");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigIntArray();
+    }
   }
 
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    return value!.toBigInt();
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
+  set values(value: Array<BigInt> | null) {
+    if (!value) {
+      this.unset("values");
+    } else {
+      this.set("values", Value.fromBigIntArray(<Array<BigInt>>value));
+    }
   }
 
   get blockNumber(): BigInt {
@@ -1148,12 +704,293 @@ export class Transaction extends Entity {
     this.set("blockNumber", Value.fromBigInt(value));
   }
 
-  get events(): Array<string> {
-    let value = this.get("events");
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get isBatch(): boolean {
+    let value = this.get("isBatch");
+    return value!.toBoolean();
+  }
+
+  set isBatch(value: boolean) {
+    this.set("isBatch", Value.fromBoolean(value));
+  }
+}
+
+export class TokenBalance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TokenBalance entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TokenBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TokenBalance", id.toString(), this);
+    }
+  }
+
+  static load(id: string): TokenBalance | null {
+    return changetype<TokenBalance | null>(store.get("TokenBalance", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get ownerAccount(): string {
+    let value = this.get("ownerAccount");
+    return value!.toString();
+  }
+
+  set ownerAccount(value: string) {
+    this.set("ownerAccount", Value.fromString(value));
+  }
+
+  get accountBalance(): string {
+    let value = this.get("accountBalance");
+    return value!.toString();
+  }
+
+  set accountBalance(value: string) {
+    this.set("accountBalance", Value.fromString(value));
+  }
+
+  get nftType(): string {
+    let value = this.get("nftType");
+    return value!.toString();
+  }
+
+  set nftType(value: string) {
+    this.set("nftType", Value.fromString(value));
+  }
+
+  get balance(): BigInt {
+    let value = this.get("balance");
+    return value!.toBigInt();
+  }
+
+  set balance(value: BigInt) {
+    this.set("balance", Value.fromBigInt(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    return value!.toString();
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get nftContract(): string {
+    let value = this.get("nftContract");
+    return value!.toString();
+  }
+
+  set nftContract(value: string) {
+    this.set("nftContract", Value.fromString(value));
+  }
+}
+
+export class Account extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Account entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Account must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Account", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Account | null {
+    return changetype<Account | null>(store.get("Account", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenCount(): BigInt {
+    let value = this.get("tokenCount");
+    return value!.toBigInt();
+  }
+
+  set tokenCount(value: BigInt) {
+    this.set("tokenCount", Value.fromBigInt(value));
+  }
+
+  get transferTo(): Array<string> {
+    let value = this.get("transferTo");
     return value!.toStringArray();
   }
 
-  set events(value: Array<string>) {
-    this.set("events", Value.fromStringArray(value));
+  set transferTo(value: Array<string>) {
+    this.set("transferTo", Value.fromStringArray(value));
+  }
+
+  get transferFrom(): Array<string> {
+    let value = this.get("transferFrom");
+    return value!.toStringArray();
+  }
+
+  set transferFrom(value: Array<string>) {
+    this.set("transferFrom", Value.fromStringArray(value));
+  }
+
+  get balances(): Array<string> {
+    let value = this.get("balances");
+    return value!.toStringArray();
+  }
+
+  set balances(value: Array<string>) {
+    this.set("balances", Value.fromStringArray(value));
+  }
+}
+
+export class AccountBalance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save AccountBalance entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type AccountBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("AccountBalance", id.toString(), this);
+    }
+  }
+
+  static load(id: string): AccountBalance | null {
+    return changetype<AccountBalance | null>(store.get("AccountBalance", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get account(): string {
+    let value = this.get("account");
+    return value!.toString();
+  }
+
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
+  get nftContract(): string {
+    let value = this.get("nftContract");
+    return value!.toString();
+  }
+
+  set nftContract(value: string) {
+    this.set("nftContract", Value.fromString(value));
+  }
+
+  get tokenCount(): BigInt {
+    let value = this.get("tokenCount");
+    return value!.toBigInt();
+  }
+
+  set tokenCount(value: BigInt) {
+    this.set("tokenCount", Value.fromBigInt(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value!.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get tokenBalances(): Array<string> {
+    let value = this.get("tokenBalances");
+    return value!.toStringArray();
+  }
+
+  set tokenBalances(value: Array<string>) {
+    this.set("tokenBalances", Value.fromStringArray(value));
+  }
+}
+
+export class NonNFTContract extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save NonNFTContract entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type NonNFTContract must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("NonNFTContract", id.toString(), this);
+    }
+  }
+
+  static load(id: string): NonNFTContract | null {
+    return changetype<NonNFTContract | null>(store.get("NonNFTContract", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 }

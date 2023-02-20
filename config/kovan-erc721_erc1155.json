@@ -1,7 +1,0 @@
-{
-  "output": "generated/kovan-erc721_erc1155.",
-  "chain": "kovan",
-  "datasources": [
-    { "module": ["erc721", "erc1155"] }
-  ]
-}

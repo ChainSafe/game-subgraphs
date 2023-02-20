@@ -1,7 +1,0 @@
-{
-  "output": "generated/goerli-erc721.",
-  "chain": "goerli",
-  "datasources": [
-    { "module": "erc721" }
-  ]
-}
